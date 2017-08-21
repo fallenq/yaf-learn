@@ -1,0 +1,22 @@
+{
+	"name": "church/yaf-template",
+    "type": "project",
+    "description": "yaf template",
+    "keywords": ["yaf template", "yaf模板"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "qiqing",
+            "email": "church_qi@aliyun.com",
+            "homepage": "https://github.com/fireqong"
+        }
+    ],
+    "require": {
+		"church/yaf-command": "dev-master",
+		"illuminate/database": "^5.5@dev",
+		"illuminate/events": "^5.5@dev",
+		"symfony/debug": "^3.3",
+		"symfony/var-dumper": "^3.3"
+	},
+	"minimum-stability": "dev"
+}
