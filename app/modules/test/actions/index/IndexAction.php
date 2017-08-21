@@ -6,7 +6,8 @@ use Helper\ArrayHelper;
 class IndexAction extends Action_Abstract
 {
     public function execute () {
-        echo TimeHelper::formatTimestamp(null, 1, "-1 days");
+        dd(DB::table('camps')->get());
+        echo TimeHelper::formatTimestamp(null, 1, "-10 days");
 //        var_dump(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));
         dd(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));
         exit('hello');
