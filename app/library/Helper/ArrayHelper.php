@@ -51,4 +51,5 @@ class ArrayHelper
             'redundant'    =>    call_user_func_array($methods[$method], [$compare, $source]),
         ];
     }
+    
 }
