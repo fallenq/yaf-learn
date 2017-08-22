@@ -31,4 +31,24 @@ class ArrayHelper
         }
         return isset($params[$columnName])? $params[$columnName]: $defaultValue;
     }
+
+    /**
+     * compare two array，get the difference of value
+     * @param $source
+     * @param $compare
+     */
+    public static function compareValue($source, $compare, $method = 0)
+    {
+        $methods = ['array_diff', 'array_diff_key'];
+        if(!is_array($source) || !is_array($compare)){
+            return [];
+        }
+        if(!array_keys($methods, $method)){
+            return [];
+        }
+        return [
+            'addition'     =>    call_user_func_array($methods[$method], [$source, $compare]),
+            'redundant'    =>    call_user_func_array($methods[$method], [$compare, $source]),
+        ];
+    }
 }

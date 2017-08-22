@@ -9,8 +9,8 @@
      /**
       * 测试方法
       */
-     public static function test()
+     public static function test($method, ...$params)
      {
-        return 'test'.time();
+        dd($method, $params);
      }
  }
