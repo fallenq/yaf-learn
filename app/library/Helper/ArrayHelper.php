@@ -33,7 +33,7 @@ class ArrayHelper
     }
 
     /**
-     * compare two array，get the difference of value
+     * Compare two array，get the difference of value
      * @param $source
      * @param $compare
      */
@@ -47,8 +47,8 @@ class ArrayHelper
             return [];
         }
         return [
-            'addition'     =>    call_user_func_array($methods[$method], [$source, $compare]),
-            'redundant'    =>    call_user_func_array($methods[$method], [$compare, $source]),
+            'addition'     =>    call_user_func_array($methods[$method], [$compare, $source]),
+            'redundant'    =>    call_user_func_array($methods[$method], [$source, $compare]),
         ];
     }
     

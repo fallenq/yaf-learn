@@ -8,7 +8,8 @@ class IndexAction extends Action_Abstract
 {
     public function execute () {
 //        dd(User::where([])->get());
-        \Helper\CommonTool::test('hello', 'world');
+//        \Helper\CommonTool::test('hello', 'world');
+        dd(ArrayHelper::compareValue(['b'=>2, 'c'=>3, 'd'=>4], ['a'=>1, 'b'=>2, 'c'=>3]));
         echo TimeHelper::formatTimestamp(null, 1, "-10 days");
 //        var_dump(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));
         dd(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));
