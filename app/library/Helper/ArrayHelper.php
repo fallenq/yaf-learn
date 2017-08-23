@@ -37,7 +37,7 @@ class ArrayHelper
      * @param $source
      * @param $compare
      */
-    public static function compareValue($source, $compare, $method = 0)
+    public static function compareDifference($source, $compare, $method = 0)
     {
         $methods = ['array_diff', 'array_diff_key'];
         if(!is_array($source) || !is_array($compare)){
