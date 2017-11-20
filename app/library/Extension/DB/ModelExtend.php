@@ -5,16 +5,21 @@ use Helper\ArrayHelper;
 
 trait ModelExtend
 {
-    private static $primeCustom = 0;
-    private static $primeKeyName = '';
-    private static $tableColumns = [];
 
     /**
-     * 获取表主键名
+     * 获取表主键名（默认'id'，需要时重构）
      */
     private static function getPrimeKeyName()
     {
-        return self::$primeKeyName;
+        return 'id';
+    }
+
+    /**
+     * 获取主键是否自定义（默认非自增，需要时重构）
+     */
+    private static function getPrimeCustom()
+    {
+        return 0;
     }
 
     /**
@@ -26,15 +31,6 @@ trait ModelExtend
     }
 
     /**
-     * 获取字段名数组
-     * @return array
-     */
-    private static function getTableColumns()
-    {
-        return self::$tableColumns;
-    }
-
-    /**
      * 过滤保存参数
      * @param &$model
      * @param $params
@@ -42,17 +38,20 @@ trait ModelExtend
      */
     private static function column_filter(&$model, $params, $columns)
     {
+        $primeCustom = self::getPrimeCustom();
         foreach ($params as $key => $param) {
-            if ($param === null) {
-                $param = '';
-            }
-            if ($key == self::getPrimeKeyName()) {
-                if(!empty(self::$primeCustom)){
-                    continue;
+            if (!empty($key)) {
+                if ($param === null) {
+                    $param = '';
                 }
-            }
-            if (in_array($key, $columns)) {
-                $model->$key = $param;
+                if ($key == self::getPrimeKeyName()) {
+                    if (!empty($primeCustom)) {
+                        continue;
+                    }
+                }
+                if (in_array($key, $columns)) {
+                    $model->$key = $param;
+                }
             }
         }
         return $model;
@@ -64,16 +63,32 @@ trait ModelExtend
      */
     public static function store($params, $record = null)
     {
+        $isCreate = 0;
+        $isPrimeCustom = self::getPrimeCustom();
         $primeName = self::getPrimeKeyName();
         $primeValue = self::getPrimeKeyValue($params);
         if (empty($record)) {
-            $record = self::where($primeName, $primeValue)->first();
+            if (!empty($primeValue)) {
+                $record = self::where($primeName, $primeValue)->first();
+                if (empty($record)) {
+                    $record = new self();
+                    $isCreate = 1;
+                }
+            } else if ($isPrimeCustom == 0) {
+                $record = new self();
+                $isCreate = 1;
+            } else {
+                return ['code' => 500, 'message' => '缺少主键'];
+            }
         }
         if (!empty($record)) {
             $record = self::column_filter($record, $params, self::getTableColumns());
-//            if ($record->save() > 0) {
-//
-//            }
+            if ($isCreate) {
+                $record->save();
+            } else {
+                // 修改
+//                $record->update();
+            }
         }
         return ['code' => 500, 'message' => '数据保存失败'];
     }
