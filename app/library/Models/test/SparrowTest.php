@@ -11,6 +11,9 @@ class SparrowTest extends \EloquentModel
 
     protected $table = 'sparrow_test';
 
+    const UPDATED_AT = 'update_at';
+    const DELETED_AT = 'delete_at';
+
     /**
      * 获取字段名数组
      * @return array
@@ -18,7 +21,7 @@ class SparrowTest extends \EloquentModel
     private static function getTableColumns()
     {
         return [
-            'name', 'type', 'created_at', 'update_at'
+            'name', 'type'
         ];
     }
 
@@ -27,8 +30,8 @@ class SparrowTest extends \EloquentModel
      *
      * @return string
      */
-    public function getDeletedAtColumn()
-    {
-        return defined('static::DELETED_AT') ? static::DELETED_AT : 'delete_at';
-    }
+//    public function getDeletedAtColumn()
+//    {
+//        return defined('static::DELETED_AT') ? static::DELETED_AT : 'delete_at';
+//    }
 }
