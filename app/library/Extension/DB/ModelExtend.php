@@ -80,13 +80,12 @@ trait ModelExtend
                     return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>$primeValue, 'message' => ''];
                 }
             } else {
-                if ($isAutoInc) {
-                    $primeKeyId = $model->insertGetId($params);
-                } else {
+                $primeKeyId = '';
+                if (!$isAutoInc) {
                     $model->$primeName = $primeValue;
-                    if ($model->save()) {
-                        $primeKeyId = $primeValue;
-                    }
+                }
+                if ($model->save()) {
+                    $primeKeyId = $model->$primeName;
                 }
                 if (!empty($primeKeyId)) {
                     return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => ''];
