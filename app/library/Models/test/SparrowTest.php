@@ -25,13 +25,4 @@ class SparrowTest extends \EloquentModel
         ];
     }
 
-    /**
-     * Get the name of the "deleted at" column.
-     *
-     * @return string
-     */
-//    public function getDeletedAtColumn()
-//    {
-//        return defined('static::DELETED_AT') ? static::DELETED_AT : 'delete_at';
-//    }
 }
