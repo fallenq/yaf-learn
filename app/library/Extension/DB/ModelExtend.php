@@ -36,7 +36,7 @@ trait ModelExtend
      * @param $params
      * @param $columns
      */
-    private static function column_filter(&$model, $params, $columns)
+    private static function column_filter(&$model, &$params, $columns)
     {
         $primeCustom = self::getPrimeCustom();
         foreach ($params as $key => $param) {
@@ -51,6 +51,8 @@ trait ModelExtend
                 }
                 if (in_array($key, $columns)) {
                     $model->$key = $param;
+                } else {
+                    unset($params[$key]);
                 }
             }
         }
@@ -84,10 +86,14 @@ trait ModelExtend
         if (!empty($record)) {
             $record = self::column_filter($record, $params, self::getTableColumns());
             if ($isCreate) {
-                $record->save();
+                $primeKeyId = $record::insertGetId($params);
+                if ($primeKeyId) {
+                    return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => ''];
+                }
             } else {
-                // 修改
-//                $record->update();
+                if ($record->save()) {
+                    return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>ArrayHelper::getValue($record, $primeName), 'message' => ''];
+                }
             }
         }
         return ['code' => 500, 'message' => '数据保存失败'];
