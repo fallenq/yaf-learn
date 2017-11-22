@@ -2,13 +2,15 @@
 use Yaf\Action_Abstract;
 use Helper\TimeHelper;
 use Helper\ArrayHelper;
-use Models\user\User;
+use Models\user\SparrowUser;
 
 class IndexAction extends Action_Abstract
 {
     public function execute () {
 //        dd(User::where([])->get());
 //        \Helper\CommonTool::test('hello', 'world');
+        $user = new SparrowUser();
+        var_dump($user->find(1));
         dd(ArrayHelper::compareDifference(['b'=>2, 'c'=>3, 'd'=>4], ['a'=>1, 'b'=>2, 'c'=>3]));
         echo TimeHelper::formatTimestamp(null, 1, "-10 days");
 //        var_dump(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));

@@ -5,30 +5,16 @@ use Helper\ArrayHelper;
 
 trait ModelExtend
 {
-
     /**
-     * 获取表主键名（默认'id'，需要时重构）
+     * 主键名称
+     * @var string
      */
-    private static function getPrimeKeyName()
-    {
-        return 'id';
-    }
-
+//    protected $primaryKey = 'id';
     /**
-     * 获取主键是否自定义（默认非自增，需要时重构）
+     * 是否自增主键
+     * @var bool
      */
-    private static function getPrimeCustom()
-    {
-        return 0;
-    }
-
-    /**
-     * 获取参数主键内容
-     */
-    private static function getPrimeKeyValue($params)
-    {
-        return ArrayHelper::getValue($params, self::getPrimeKeyName());
-    }
+//    protected $incrementing = true;
 
     /**
      * 过滤保存参数
@@ -36,18 +22,15 @@ trait ModelExtend
      * @param $params
      * @param $columns
      */
-    private static function column_filter(&$model, &$params, $columns)
+    private static function column_filter(&$model, $params, $columns)
     {
-        $primeCustom = self::getPrimeCustom();
         foreach ($params as $key => $param) {
             if (!empty($key)) {
                 if ($param === null) {
                     $param = '';
                 }
-                if ($key == self::getPrimeKeyName()) {
-                    if (!empty($primeCustom)) {
-                        continue;
-                    }
+                if ($key == $model->getKeyName()) {
+                    unset($params[$key]);
                 }
                 if (in_array($key, $columns)) {
                     $model->$key = $param;
@@ -56,43 +39,55 @@ trait ModelExtend
                 }
             }
         }
-        return $model;
+        return $params;
     }
 
     /**
      * 保存
      * @param $params
      */
-    public static function store($params, $record = null)
+    public static function store($params, $primeValue = '', $model = null)
     {
-        $isCreate = 0;
-        $isPrimeCustom = self::getPrimeCustom();
-        $primeName = self::getPrimeKeyName();
-        $primeValue = self::getPrimeKeyValue($params);
-        if (empty($record)) {
-            if (!empty($primeValue)) {
-                $record = self::where($primeName, $primeValue)->first();
-                if (empty($record)) {
-                    $record = new self();
-                    $isCreate = 1;
-                }
-            } else if ($isPrimeCustom == 0) {
-                $record = new self();
-                $isCreate = 1;
-            } else {
+        $isAutoInc = false;
+        $isUpdate = 0;
+        if (empty($model)) {
+            $model = new self();
+            $isAutoInc = $model->getIncrementing();
+            $primeName = $model->getKeyName();
+            if (!$isAutoInc && empty($primeValue)) {
                 return ['code' => 500, 'message' => '缺少主键'];
             }
+            if (!empty($primeValue)) {
+                if (method_exists($model,'getDeletedAtColumn')) {
+                    $record = $model->withTrashed()->where($primeName, $primeValue)->first();
+                } else {
+                    $record = $model->where($primeName, $primeValue)->first();
+                }
+                if (!empty($record)) {
+                    $model = $record;
+                    $isUpdate = 1;
+                }
+            }
+        } else if(!($model instanceof self)) {
+            return ['code' => 500, 'message' => '对象类型不符'];
         }
-        if (!empty($record)) {
-            $record = self::column_filter($record, $params, self::getTableColumns());
-            if ($isCreate) {
-                $primeKeyId = $record::insertGetId($params);
-                if ($primeKeyId) {
-                    return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => ''];
+        if (!empty($model)) {
+            $params = self::column_filter($model, $params, self::getTableColumns());
+            if (!empty($isUpdate)) {
+                if ($model->save()) {
+                    return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>$primeValue, 'message' => ''];
                 }
             } else {
-                if ($record->save()) {
-                    return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>ArrayHelper::getValue($record, $primeName), 'message' => ''];
+                if ($isAutoInc) {
+                    $primeKeyId = $model->insertGetId($params);
+                } else {
+                    $model->$primeName = $primeValue;
+                    if ($model->save()) {
+                        $primeKeyId = $primeValue;
+                    }
+                }
+                if (!empty($primeKeyId)) {
+                    return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => ''];
                 }
             }
         }
