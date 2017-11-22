@@ -46,14 +46,16 @@ trait ModelExtend
      * 保存
      * @param $params
      */
-    public static function store($params, $primeValue = '', $model = null)
+    public static function store($params, $model = null)
     {
         $isAutoInc = false;
+        $primeValue = '';
         $isUpdate = 0;
         if (empty($model)) {
             $model = new self();
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
+            $primeValue = ArrayHelper::getValue($params, $primeName);
             if (!$isAutoInc && empty($primeValue)) {
                 return ['code' => 500, 'message' => '缺少主键'];
             }
