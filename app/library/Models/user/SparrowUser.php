@@ -27,14 +27,4 @@ class SparrowUser extends \EloquentModel
             'status'
         ];
     }
-
-    /**
-     * Get the name of the "deleted at" column.
-     *
-     * @return string
-     */
-    public function getDeletedAtColumn()
-    {
-        return defined('static::DELETED_AT') ? static::DELETED_AT : 'delete_at';
-    }
 }

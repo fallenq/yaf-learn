@@ -5,16 +5,6 @@ use Helper\ArrayHelper;
 
 trait ModelExtend
 {
-    /**
-     * 主键名称
-     * @var string
-     */
-//    protected $primaryKey = 'id';
-    /**
-     * 是否自增主键
-     * @var bool
-     */
-//    protected $incrementing = true;
 
     /**
      * 过滤保存参数

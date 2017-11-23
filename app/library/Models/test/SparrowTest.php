@@ -11,6 +11,10 @@ class SparrowTest extends \EloquentModel
 
     protected $table = 'sparrow_test';
 
+//    protected $primaryKey = 'id';
+
+//    protected $incrementing = false;
+
     const UPDATED_AT = 'update_at';
     const DELETED_AT = 'delete_at';
 
