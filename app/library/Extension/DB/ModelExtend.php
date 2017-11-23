@@ -2,6 +2,7 @@
 namespace Extension\DB;
 
 use Helper\ArrayHelper;
+use Illuminate\Support\Arr;
 
 trait ModelExtend
 {
@@ -36,11 +37,12 @@ trait ModelExtend
      * 保存
      * @param $params
      */
-    public static function store($params, $model = null)
+    public static function store($params, $options = [], $model = null)
     {
         $isAutoInc = false;
         $primeValue = '';
         $isUpdate = 0;
+        $isReturnModel = ArrayHelper::getValue($options, 'return_model');
         if (empty($model)) {
             $model = new self();
             $isAutoInc = $model->getIncrementing();
@@ -64,10 +66,11 @@ trait ModelExtend
             return ['code' => 500, 'message' => '对象类型不符'];
         }
         if (!empty($model)) {
+            $returnModel = !empty($isReturnModel)? $model: '';
             $params = self::column_filter($model, $params, self::getTableColumns());
             if (!empty($isUpdate)) {
                 if ($model->save()) {
-                    return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>$primeValue, 'message' => ''];
+                    return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>$primeValue, 'message' => '', 'model' => $returnModel];
                 }
             } else {
                 $primeKeyId = '';
@@ -78,7 +81,7 @@ trait ModelExtend
                     $primeKeyId = $model->$primeName;
                 }
                 if (!empty($primeKeyId)) {
-                    return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => ''];
+                    return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => '', 'model' => $returnModel];
                 }
             }
         }
