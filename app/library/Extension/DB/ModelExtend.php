@@ -22,6 +22,7 @@ trait ModelExtend
                 }
                 if ($key == $model->getKeyName()) {
                     unset($params[$key]);
+                    continue;
                 }
                 if (in_array($key, $columns)) {
                     $model->$key = $param;
