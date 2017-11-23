@@ -54,9 +54,9 @@ trait ModelExtend
             }
             if (!empty($primeValue)) {
                 if (method_exists($model,'getDeletedAtColumn')) {
-                    $record = $model->withTrashed()->where($primeName, "=", $primeValue)->first();
+                    $record = $model->withTrashed()->where($primeName, $primeValue)->first();
                 } else {
-                    $record = $model->where($primeName, "=", $primeValue)->first();
+                    $record = $model->where($primeName, $primeValue)->first();
                 }
                 if (!empty($record)) {
                     $model = $record;
