@@ -13,11 +13,17 @@
     ],
     "require": {
 		"church/yaf-command": "dev-master",
-		"illuminate/database": "^5.5@dev",
-		"illuminate/events": "^5.5@dev",
-		"symfony/debug": "^3.3",
-		"symfony/var-dumper": "^3.3",
-		"doctrine/dbal": "^2.6"
+      "illuminate/database": "^5.5@dev",
+      "illuminate/events": "^5.5@dev",
+      "symfony/debug": "^3.3",
+      "symfony/var-dumper": "^3.3",
+      "doctrine/dbal": "^2.6"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+  "repositories": {
+      "packagist": {
+          "type": "composer",
+          "url": "https://packagist.phpcomposer.com"
+      }
+  }
 }
