@@ -34,16 +34,22 @@ yaf.use_spl_autoload = True
 
 ### framework
 
+> 项目目录说明
+
 app
+
 	common
 		functions.php
+
 	lib
 		model
 			basemodel.php
 			eloquent.php
 			model.php
+
 		extension
 			DB
+
 		helper
 			
 	controllers
