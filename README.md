@@ -28,3 +28,55 @@ php console make:plugin Test	#创建插件
 yaf.use_namespace = True
 yaf.use_spl_autoload = True
 ```
+
+
+
+
+### framework
+
+app
+	common
+		functions.php
+	lib
+		model
+			basemodel.php
+			eloquent.php
+			model.php
+		extension
+			DB
+		helper
+			
+	controllers
+		admin
+			test
+				test.php
+		api
+			test
+				test.php
+		home
+			test
+				test.php
+	models
+		admin
+			test
+				test.php
+		api
+			test
+				test.php
+		home
+			test
+				test.php
+	modules
+	plugins
+		test
+			test.php
+	views
+		test
+			test.php
+conf
+database
+public
+vendor
+composer.json
+.gitignore
+README.md
