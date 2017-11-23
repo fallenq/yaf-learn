@@ -73,10 +73,17 @@ app
 	views
 		test
 			test.php
+
 conf
+
 database
+
 public
+
 vendor
+
 composer.json
+
 .gitignore
+
 README.md
