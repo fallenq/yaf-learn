@@ -51,6 +51,7 @@ trait ModelExtend
         if (empty($model)) {
             $model = new self();
             $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
+            $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
             $primeValue = ArrayHelper::getValue($params, $primeName);

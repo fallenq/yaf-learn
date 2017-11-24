@@ -7,6 +7,19 @@ trait BaseModelExtend
 {
 
     /**
+     * Set name of connection in model
+     * @param $model
+     * @param string $connectionName
+     */
+    private function setModelConnection($connectionName = '')
+    {
+        if (empty($connectionName)) {
+            return $this;
+        }
+        return $this->setConnection($connectionName);
+    }
+
+    /**
      * Set name of table in model
      * @param $model
      * @param string $tableName
@@ -32,6 +45,7 @@ trait BaseModelExtend
         }
         $model = new self();
         $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
+        $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
         if (!empty($withTrashed)) {
             $model = $model->withTrashed();
         }
