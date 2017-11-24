@@ -1,8 +1,24 @@
 <?php
 namespace Extension\DB;
 
+use Helper\ArrayHelper;
+
 trait BaseModelExtend
 {
+
+    /**
+     * Set name of table in model
+     * @param $model
+     * @param string $tableName
+     */
+    private function setTableName($tableName = '')
+    {
+        if (empty($tableName)) {
+            return $this;
+        }
+        return $this->setTable($tableName);
+    }
+
     /**
      * Get record by prime key
      * @param $primeValue
@@ -15,6 +31,7 @@ trait BaseModelExtend
             return '';
         }
         $model = new self();
+        $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
         if (!empty($withTrashed)) {
             $model = $model->withTrashed();
         }

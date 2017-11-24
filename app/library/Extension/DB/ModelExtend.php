@@ -47,19 +47,10 @@ trait ModelExtend
         $isAutoInc = false;
         $primeValue = '';
         $isUpdate = 0;
-        $isReturnModel = 0;
-        if (!empty($options)) {
-            $method = $options[0];
-            if (!empty($method)) {
-                switch ($method) {
-                    case 1:
-                        $isReturnModel = 1;
-                        break;
-                }
-            }
-        }
+        $isReturnModel = ArrayHelper::getValue($options, 'return_model');
         if (empty($model)) {
             $model = new self();
+            $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
             $primeValue = ArrayHelper::getValue($params, $primeName);
