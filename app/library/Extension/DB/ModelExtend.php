@@ -40,6 +40,10 @@ trait ModelExtend
      */
     public static function store($params, $model = null, ...$options)
     {
+//        var_dump($params);
+        if (empty($params)) {
+            return ['code' => 500, 'message' => '参数不能为空'];
+        }
         $isAutoInc = false;
         $primeValue = '';
         $isUpdate = 0;

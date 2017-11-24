@@ -1,5 +1,5 @@
 <?php
-namespace Models\test;
+namespace Modules\Test\Models;
 
 use Extension\DB\BaseModelExtend;
 use Extension\DB\ModelExtend;
