@@ -38,12 +38,22 @@ trait ModelExtend
      * 保存
      * @param $params
      */
-    public static function store($params, $options = [], $model = null)
+    public static function store($params, $model = null, ...$options)
     {
         $isAutoInc = false;
         $primeValue = '';
         $isUpdate = 0;
-        $isReturnModel = ArrayHelper::getValue($options, 'return_model');
+        $isReturnModel = 0;
+        if (!empty($options)) {
+            $method = $options[0];
+            if (!empty($method)) {
+                switch ($method) {
+                    case 1:
+                        $isReturnModel = 1;
+                        break;
+                }
+            }
+        }
         if (empty($model)) {
             $model = new self();
             $isAutoInc = $model->getIncrementing();
