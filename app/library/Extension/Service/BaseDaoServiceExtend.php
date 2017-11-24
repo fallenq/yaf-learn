@@ -11,6 +11,7 @@ trait BaseDaoServiceExtend
     {
         return defined('static::STORE_METHOD') ? static::STORE_METHOD : 'store';
     }
+
     /**
      * Execute model store
      * @param $params
