@@ -1,5 +1,25 @@
 <?php
 
+function getConfig(...$module) {
+    $suffix = "";
+    switch (ENV) {
+        case 'DEV':
+            $suffix .= '_dev';
+            break;
+    }
+    if (empty($suffix)) {
+        return [];
+    }
+    $configs = [];
+    foreach ($module as $item) {
+        $fileName = __DIR__."/../../conf/".ENV."/".$item.$suffix.".php";
+        if (file_exists($fileName)) {
+            $configs =  array_merge($configs, include($fileName));
+        }
+    }
+    return $configs;
+}
+
 function get_client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'];
     if (isset($_SERVER['HTTP_CLIENT_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CLIENT_IP'])) {

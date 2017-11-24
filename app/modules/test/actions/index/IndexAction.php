@@ -15,6 +15,7 @@ class IndexAction extends Action_Abstract
         $user = new SparrowUser();
         $stime = date('Y-m-d H:i:s');
 //        var_dump(SparrowTest::store(['name'=>"dd"], $user, 0));
+        dd(getConfig('common', 'test'));
         dd(TestDaoService::store([]));
         dd(TestDaoService::store(['name'=>"dd"]));
         dd(ArrayHelper::compareDifference(['b'=>2, 'c'=>3, 'd'=>4], ['a'=>1, 'b'=>2, 'c'=>3]));
