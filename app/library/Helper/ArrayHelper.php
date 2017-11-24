@@ -14,22 +14,22 @@ class ArrayHelper
      */
     public static function getValue($params, $columnName, $defaultValue = '')
     {
-        if(empty($params) || !isset($columnName)){
+        if (empty($params) || !isset($columnName)) {
             return $defaultValue;
         }
-        if($columnName === ''){
+        if ($columnName === '') {
             return $defaultValue;
         }
-        if(StringHelper::countSub($columnName, '.')){
+        if (StringHelper::countSub($columnName, '.')) {
             $columns = explode('.', $columnName);
             $keyName = array_shift($columns);
-            if(isset($params[$keyName])){
+            if (isset($params[$keyName])) {
                 return self::getValue($params[$keyName], implode('.', $columns), $defaultValue);
-            }else{
+            } else {
                 return $defaultValue;
             }
         }
-        return isset($params[$columnName])? $params[$columnName]: $defaultValue;
+        return isset($params[$columnName]) ? $params[$columnName] : $defaultValue;
     }
 
     /**
@@ -40,16 +40,15 @@ class ArrayHelper
     public static function compareDifference($source, $compare, $method = 0)
     {
         $methods = ['array_diff', 'array_diff_key'];
-        if(!is_array($source) || !is_array($compare)){
+        if (!is_array($source) || !is_array($compare)) {
             return [];
         }
-        if(!array_keys($methods, $method)){
+        if (!array_keys($methods, $method)) {
             return [];
         }
         return [
-            'addition'     =>    call_user_func_array($methods[$method], [$compare, $source]),
-            'redundant'    =>    call_user_func_array($methods[$method], [$source, $compare]),
+            'addition' => call_user_func_array($methods[$method], [$compare, $source]),
+            'redundant' => call_user_func_array($methods[$method], [$source, $compare]),
         ];
     }
-    
 }
