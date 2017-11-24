@@ -50,8 +50,7 @@ trait ModelExtend
         $isReturnModel = ArrayHelper::getValue($options, 'return_model');
         if (empty($model)) {
             $model = new self();
-            $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
-            $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
+            $model = $model->setCustomOptions($model, $options);
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
             $primeValue = ArrayHelper::getValue($params, $primeName);

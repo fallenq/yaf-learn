@@ -32,6 +32,13 @@ trait BaseModelExtend
         return $this->setTable($tableName);
     }
 
+    private function setCustomOptions($model, ...$options)
+    {
+        $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
+        $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
+        return $model;
+    }
+
     /**
      * Get record by prime key
      * @param $primeValue
@@ -44,8 +51,7 @@ trait BaseModelExtend
             return '';
         }
         $model = new self();
-        $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
-        $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
+        $model = $model->setCustomOptions($model, $options);
         if (!empty($withTrashed)) {
             $model = $model->withTrashed();
         }
