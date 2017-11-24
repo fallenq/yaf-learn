@@ -1,5 +1,6 @@
 <?php
 use Yaf\Action_Abstract;
+use Helper\CommonTool;
 use Helper\TimeHelper;
 use Helper\ArrayHelper;
 use Models\user\SparrowUser;
