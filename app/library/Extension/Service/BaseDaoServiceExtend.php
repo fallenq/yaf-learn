@@ -5,6 +5,15 @@ trait BaseDaoServiceExtend
 {
 
     /**
+     * Get instance of DaoService
+     * @return BaseDaoServiceExtend
+     */
+    public static function getInstance()
+    {
+        return new self();
+    }
+
+    /**
      * Get record by prime key
      * @param $primeValue
      * @param int $withTrashed

@@ -3,18 +3,17 @@ use Yaf\Action_Abstract;
 use Helper\CommonTool;
 use Helper\TimeHelper;
 use Helper\ArrayHelper;
-use Models\user\SparrowUser;
 use Modules\Test\Models\SparrowTest;
 use Modules\Test\Services\DaoServices\TestDaoService;
+use Modules\Test\Services\FuncServices\TestFuncService;
 
 class IndexAction extends Action_Abstract
 {
     public function execute () {
 //        dd(User::where([])->get());
-//        \Helper\CommonTool::test('hello', 'world');
-        $user = new SparrowUser();
         $stime = date('Y-m-d H:i:s');
 //        var_dump(SparrowTest::store(['name'=>"dd"], $user, 0));
+        dd(TestFuncService::getInstance());
         dd(getConfig('common', 'test'));
         dd(TestDaoService::store([]));
         dd(TestDaoService::store(['name'=>"dd"]));
