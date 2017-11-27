@@ -52,8 +52,10 @@ trait BaseModelExtend
         }
         $model = new self();
         $model = $model->setCustomOptions($model, $options);
-        if (!empty($withTrashed)) {
+        if ($withTrashed == 1) {
             $model = $model->withTrashed();
+        } else if($withTrashed == -1) {
+            $model = $model->onlyTrashed();
         }
         return $model->where($model->getKeyName(), $primeValue)->first();
     }
