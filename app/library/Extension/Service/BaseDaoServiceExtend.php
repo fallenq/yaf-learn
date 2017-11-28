@@ -3,6 +3,16 @@ namespace Extension\Service;
 
 trait BaseDaoServiceExtend
 {
+    private $model = null;
+
+    /**
+     * Get model of DaoService
+     * @return null
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
 
     /**
      * Get instance of DaoService
