@@ -8,6 +8,15 @@ trait ModelExtend
 {
 
     /**
+     * 获取字段名数组
+     * @return array
+     */
+    private static function getTableColumns()
+    {
+        return [];
+    }
+
+    /**
      * 过滤保存参数
      * @param &$model
      * @param $params
@@ -40,7 +49,6 @@ trait ModelExtend
      */
     public static function store($params, $model = null, ...$options)
     {
-//        var_dump($params);
         if (empty($params)) {
             return ['code' => 500, 'message' => '参数不能为空'];
         }
