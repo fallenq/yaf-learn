@@ -18,6 +18,9 @@ class CommonTool
         if (empty($modules)) {
             return $defaultValue;
         }
+        if (!is_array($modules)) {
+            $modules = [$modules];
+        }
         $configs = getConfig($modules);
         if (!empty($configs) && !empty($column)) {
             return ArrayHelper::getValue($configs, $column, $defaultValue);

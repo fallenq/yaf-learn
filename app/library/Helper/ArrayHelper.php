@@ -11,8 +11,9 @@ class ArrayHelper
      * @param $params
      * @param $columnName
      * @param string $defaultValue
+     * @param int $isTrim
      */
-    public static function getValue($params, $columnName, $defaultValue = '')
+    public static function getValue($params, $columnName, $defaultValue = '', $isTrim = 0)
     {
         if (empty($params) || !isset($columnName)) {
             return $defaultValue;
@@ -29,7 +30,39 @@ class ArrayHelper
                 return $defaultValue;
             }
         }
-        return isset($params[$columnName]) ? $params[$columnName] : $defaultValue;
+        if (isset($params[$columnName])) {
+            $value = $params[$columnName];
+            if (!empty($isTrim)) {
+                $value = trim($value);
+            }
+            return $value;
+        }
+        return $defaultValue;
+    }
+
+    /**
+     * Validate whether the column is in params
+     * @param $params
+     * @param $columnName
+     */
+    public static function keyExists($params, $columnName)
+    {
+        if (empty($params) || !isset($columnName)) {
+            return false;
+        }
+        if ($columnName === '') {
+            return false;
+        }
+        if (StringHelper::countSub($columnName, '.')) {
+            $columns = explode('.', $columnName);
+            $keyName = array_shift($columns);
+            if (isset($params[$keyName])) {
+                return self::keyExists($params[$keyName], implode('.', $columns));
+            } else {
+                return false;
+            }
+        }
+        return isset($params[$columnName])? true: false;
     }
 
     /**
