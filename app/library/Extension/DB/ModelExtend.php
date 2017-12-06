@@ -67,6 +67,7 @@ trait ModelExtend
             }
             if (!empty($primeValue)) {
                 if (method_exists($model,'getDeletedAtColumn')) {
+                    // 软删除的model取全部状态
                     $record = $model->withTrashed()->where($primeName, $primeValue)->first();
                 } else {
                     $record = $model->where($primeName, $primeValue)->first();
