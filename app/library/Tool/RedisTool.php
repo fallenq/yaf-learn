@@ -21,6 +21,11 @@ class RedisTool
 
     function __construct($dbName = '', $dbId = 0, ...$options)
     {
+        $this->init($dbName, $dbId, $options);
+    }
+
+    public function init($dbName = '', $dbId = 0, ...$options)
+    {
         $this->setConnection($dbName, $options);
         if (!empty($dbId)) {
             $this->execute(static::SELECT, $dbId);

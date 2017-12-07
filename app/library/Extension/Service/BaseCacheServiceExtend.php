@@ -23,7 +23,12 @@ trait BaseCacheServiceExtend
         $dbIndex = ArrayHelper::getValue($options, 'index', 0);
         $dbName = !empty($dbName) ? $dbName : self::getRedisDbName();
         $dbIndex = !empty($dbIndex) ? $dbIndex : self::getRedisDbIndex();
-        return new RedisTool($dbName, $dbIndex);
+        if (!empty($connection)) {
+            $connection->init($dbName, $dbIndex);
+        } else {
+            $connection = new RedisTool($dbName, $dbIndex);
+        }
+        return $connection;
     }
 
 }
