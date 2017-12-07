@@ -10,18 +10,18 @@ use Helper\CommonHelper;
 class RedisTool
 {
 
-    const DEFAULT_TIMEOUT   = 3;
-    const SELECT        = 'select';
-    const PING          = 'ping';
-    const EXPIRE        = 'expire';
-    const SET           = 'set';
-    const SETNX         = 'setnx';
-    const GETSET        = 'getset';
-    const MOVE          = 'move';
-    const GET           = 'get';
-    const DEL           = 'del';
-    const INCR          = 'incr';
-    const DECR          = 'decr';
+    const DEFAULT_TIMEOUT = 3;
+    const SELECT = 'select';
+    const PING = 'ping';
+    const EXPIRE = 'expire';
+    const SET = 'set';
+    const SETNX = 'setnx';
+    const GETSET = 'getset';
+    const MOVE = 'move';
+    const GET = 'get';
+    const DEL = 'del';
+    const INCR = 'incr';
+    const DECR = 'decr';
 
     private $connection = null;
 
@@ -47,7 +47,7 @@ class RedisTool
             $timeout = 0;
             if (ArrayHelper::keyExists($config, 'timeout')) {
                 $timeout = intval(ArrayHelper::getValue($config, 'timeout', 0));
-                $timeout = !empty($timeout)? $timeout: static::DEFAULT_TIMEOUT;
+                $timeout = !empty($timeout) ? $timeout : static::DEFAULT_TIMEOUT;
             }
             $password = ArrayHelper::getValue($config, 'password', '', 1);
             if (!empty($host) && !empty($port)) {
@@ -159,13 +159,13 @@ class RedisTool
 
     public function incr($key, $disc = 0)
     {
-        $disc = $disc <= 1? 1: $disc;
+        $disc = $disc <= 1 ? 1 : $disc;
         return $this->connection->incrby($key, $disc);
     }
 
     public function decr($key, $disc = 0)
     {
-        $disc = $disc <= 1? 1: $disc;
+        $disc = $disc <= 1 ? 1 : $disc;
         return $this->connection->decrby($key, $disc);
     }
 
