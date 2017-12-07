@@ -32,6 +32,7 @@ class RedisTool
 
     public function init($dbName = '', $dbIndex = 0, ...$options)
     {
+        $this->close();
         $this->setConnection($dbName, $options);
         if (!empty($dbIndex)) {
             $this->execute(static::SELECT, $dbIndex);
@@ -106,7 +107,11 @@ class RedisTool
         if (empty($this->connection)) {
             return false;
         }
-        return $this->connection->close();
+        if ($this->connection->close()) {
+            $this->connection = null;
+            return true;
+        }
+        return false;
     }
 
     public function expire($key, $expire = 0)
