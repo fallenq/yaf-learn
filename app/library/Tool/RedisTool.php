@@ -159,20 +159,14 @@ class RedisTool
 
     public function incr($key, $disc = 0)
     {
-        if ($disc <= 1) {
-            return $this->connection->incr($key);
-        } else {
-            return $this->connection->incrby($key, $disc);
-        }
+        $disc = $disc <= 1? 1: $disc;
+        return $this->connection->incrby($key, $disc);
     }
 
     public function decr($key, $disc = 0)
     {
-        if ($disc <= 1) {
-            return $this->connection->decr($key);
-        } else {
-            return $this->connection->decrby($key, $disc);
-        }
+        $disc = $disc <= 1? 1: $disc;
+        return $this->connection->decrby($key, $disc);
     }
 
 }
