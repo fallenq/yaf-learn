@@ -75,6 +75,9 @@ class RedisTool
         if (empty($this->connection)) {
             return false;
         }
+        if (!method_exists($this, $command)) {
+            return false;
+        }
         if (empty($this->validateCommand($command, $options))) {
             return false;
         }
