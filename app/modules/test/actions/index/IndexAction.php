@@ -14,8 +14,8 @@ class IndexAction extends Action_Abstract
 //        dd(User::where([])->get());
         $stime = date('Y-m-d H:i:s');
 
-//        $redis = new RedisTool();
-//        dd($redis->execute(\Tool\RedisTool::SET, 'hello', 'world', 30));
+        $redis = new RedisTool();
+        dd($redis->execute(\Tool\RedisTool::PING));
 //        var_dump(SparrowTest::store(['name'=>"dd"], $user, 0));
 
 //        dd(TestFuncService::getInstance());
