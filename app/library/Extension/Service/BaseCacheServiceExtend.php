@@ -19,12 +19,12 @@ trait BaseCacheServiceExtend
 
     public static function getRedisConnection(...$options)
     {
+        $connection = ArrayHelper::getValue($options, 'connection', null);
         $dbName = ArrayHelper::getValue($options, 'db', '', 1);
         $dbIndex = ArrayHelper::getValue($options, 'index', 0);
-        $connection = ArrayHelper::getValue($options, 'connection', null);
         $dbName = !empty($dbName) ? $dbName : self::getRedisDbName();
         $dbIndex = !empty($dbIndex) ? $dbIndex : self::getRedisDbIndex();
-        if (!empty($connection)) {
+        if ($connection instanceof RedisTool) {
             $connection->init($dbName, $dbIndex);
         } else {
             $connection = new RedisTool($dbName, $dbIndex);
