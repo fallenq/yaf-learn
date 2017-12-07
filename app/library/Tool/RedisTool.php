@@ -16,6 +16,8 @@ class RedisTool
     const SET           = 'set';
     const DEL           = 'del';
     const SETNX         = 'setnx';
+    const INCR          = 'incr';
+    const DECR          = 'decr';
 
     private $connection = null;
 
@@ -133,6 +135,24 @@ class RedisTool
     public function del(...$keys)
     {
         return $this->connection->del($keys);
+    }
+
+    public function incr($key, $disc = 0)
+    {
+        if ($disc <= 1) {
+            return $this->connection->incr($key);
+        } else {
+            return $this->connection->incrby($key, $disc);
+        }
+    }
+
+    public function decr($key, $disc = 0)
+    {
+        if ($disc <= 1) {
+            return $this->connection->decr($key);
+        } else {
+            return $this->connection->decrby($key, $disc);
+        }
     }
 
 }
