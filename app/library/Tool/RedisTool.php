@@ -13,9 +13,13 @@ class RedisTool
     const DEFAULT_TIMEOUT   = 3;
     const SELECT        = 'select';
     const PING          = 'ping';
+    const EXPIRE        = 'expire';
     const SET           = 'set';
-    const DEL           = 'del';
     const SETNX         = 'setnx';
+    const GETSET        = 'getset';
+    const MOVE          = 'move';
+    const GET           = 'get';
+    const DEL           = 'del';
     const INCR          = 'incr';
     const DECR          = 'decr';
 
@@ -99,6 +103,9 @@ class RedisTool
 
     public function close()
     {
+        if (empty($this->connection)) {
+            return false;
+        }
         return $this->connection->close();
     }
 
@@ -128,6 +135,16 @@ class RedisTool
             return true;
         }
         return false;
+    }
+
+    public function getset($key, $value)
+    {
+        return $this->connection->getset($key, $value);
+    }
+
+    public function move($key, $dbId)
+    {
+        return $this->connection->move($key, $dbId);
     }
 
     public function get($key)
