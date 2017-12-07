@@ -5,7 +5,7 @@
 namespace Tool;
 
 use Helper\ArrayHelper;
-use Helper\CommonTool;
+use Helper\CommonHelper;
 
 class RedisTool
 {
@@ -22,7 +22,7 @@ class RedisTool
 
     public function setConnection($dbName, ...$options)
     {
-        $config = CommonTool::config('redis', $dbName, []);
+        $config = CommonHelper::config('redis', $dbName, []);
         if (!empty($config)) {
             $host = ArrayHelper::getValue($config, 'host', '127.0.0.1', 1);
             $port = intval(ArrayHelper::getValue($config, 'port', '6379'));

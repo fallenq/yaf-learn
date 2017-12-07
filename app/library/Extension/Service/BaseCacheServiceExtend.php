@@ -1,7 +1,7 @@
 <?php
 namespace Extension\Service;
 
-trait BaseCachServiceExtend
+trait BaseCacheServiceExtend
 {
 
 }

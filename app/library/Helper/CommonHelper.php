@@ -4,7 +4,7 @@
  */
  namespace Helper;
 
-class CommonTool
+class CommonHelper
 {
     /**
      * Get value of global config

@@ -1,6 +1,6 @@
 <?php
 use Yaf\Action_Abstract;
-use Helper\CommonTool;
+use Helper\CommonHelper;
 use Helper\TimeHelper;
 use Helper\ArrayHelper;
 use Modules\Test\Models\SparrowTest;
