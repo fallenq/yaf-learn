@@ -49,4 +49,22 @@ class RedisTool
 //        return $this->connection;
 //    }
 
+    public function ping()
+    {
+        if (!empty($this->connection)) {
+            $ping_status = $this->connection->ping();
+            if ($ping_status == 'PONG') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function close()
+    {
+        if (!empty($this->connection)) {
+            $this->connection->close();
+        }
+    }
+
 }
