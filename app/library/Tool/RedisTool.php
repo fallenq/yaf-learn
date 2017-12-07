@@ -66,10 +66,10 @@ class RedisTool
     public function execute($command, ...$options)
     {
         if (empty($this->connection)) {
-            return '';
+            return false;
         }
         if (empty($this->validateCommand($command, $options))) {
-            return '';
+            return false;
         }
         return call_user_func_array([$this, $command], $options);
     }
