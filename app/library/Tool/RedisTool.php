@@ -113,8 +113,9 @@ class RedisTool
     {
         if ($this->connection->setnx($key, $value)) {
             if (!empty($expire)) {
-                return $this->expire($key, $expire);
+                $this->expire($key, $expire);
             }
+            return true;
         }
         return false;
     }
