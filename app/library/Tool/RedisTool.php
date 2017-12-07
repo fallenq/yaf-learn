@@ -79,11 +79,6 @@ class RedisTool
         return $this->connection->select($dbId);
     }
 
-//    public function getConnection()
-//    {
-//        return $this->connection;
-//    }
-
     public function ping()
     {
         if ($this->connection->ping() == '+PONG') {
