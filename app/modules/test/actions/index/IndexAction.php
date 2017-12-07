@@ -4,8 +4,8 @@ use Helper\CommonHelper;
 use Helper\TimeHelper;
 use Helper\ArrayHelper;
 use Modules\Test\Models\SparrowTest;
-use Modules\Test\Services\DaoServices\TestDaoService;
-use Modules\Test\Services\FuncServices\TestFuncService;
+use Modules\Test\Services\Dao\TestDaoService;
+use Modules\Test\Services\Func\TestFuncService;
 
 class IndexAction extends Action_Abstract
 {

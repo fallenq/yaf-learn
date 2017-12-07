@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Test\Services\FuncServices;
+namespace Modules\Test\Services\Func;
 
 use Extension\Service\BaseFuncServiceExtend;
 
