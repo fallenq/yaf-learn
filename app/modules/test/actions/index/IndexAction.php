@@ -6,12 +6,16 @@ use Helper\ArrayHelper;
 use Modules\Test\Models\SparrowTest;
 use Modules\Test\Services\Dao\TestDaoService;
 use Modules\Test\Services\Func\TestFuncService;
+use Tool\RedisTool;
 
 class IndexAction extends Action_Abstract
 {
     public function execute () {
 //        dd(User::where([])->get());
         $stime = date('Y-m-d H:i:s');
+
+//        $redis = new RedisTool();
+//        dd($redis->execute(\Tool\RedisTool::SET, 'hello', 'world', 30));
 //        var_dump(SparrowTest::store(['name'=>"dd"], $user, 0));
 
 //        dd(TestFuncService::getInstance());

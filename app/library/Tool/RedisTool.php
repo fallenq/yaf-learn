@@ -10,13 +10,17 @@ use Helper\CommonHelper;
 class RedisTool
 {
 
+    const SELECT        = 'select';
+    const PING          = 'ping';
+    const SET           = 'set';
+
     private $connection = null;
 
     function __construct($dbName = '', $dbId = 0, ...$options)
     {
         $this->setConnection($dbName, $options);
         if (!empty($dbId)) {
-            $this->selectDb($dbId);
+            $this->execute(static::SELECT, $dbId);
         }
     }
 
@@ -29,19 +33,28 @@ class RedisTool
             $password = ArrayHelper::getValue($config, 'password', '', 1);
             if (!empty($host) && !empty($port)) {
                 $this->connection = new \Redis();
-                $this->connection->connect($host, $port);
-                if (!empty($password)) {
+                $connected = $this->connection->connect($host, $port);
+                if ($connected && !empty($password)) {
                     $this->connection->auth($password);
                 }
             }
         }
     }
 
-    public function selectDb($dbId)
+    public function execute($command, ...$options)
     {
-        if (!empty($this->connection)) {
-            $this->connection->select($dbId);
+        if (empty($this->connection)) {
+            return '';
         }
+        if (empty($command)) {
+            return '';
+        }
+        return call_user_func_array([$this, $command], $options);
+    }
+
+    public function select($dbId)
+    {
+        return $this->connection->select($dbId);
     }
 
 //    public function getConnection()
@@ -51,19 +64,26 @@ class RedisTool
 
     public function ping()
     {
-        if (!empty($this->connection)) {
-            $ping_status = $this->connection->ping();
-            if ($ping_status == 'PONG') {
-                return true;
-            }
+        if ($this->connection->ping() == '+PONG') {
+            return true;
         }
         return false;
     }
 
     public function close()
     {
-        if (!empty($this->connection)) {
-            $this->connection->close();
+        return $this->connection->close();
+    }
+
+    public function set($key, $value, $expire = 0)
+    {
+        if (empty($key)) {
+            return '';
+        }
+        if (!empty($expire)) {
+            return $this->connection->setex($key, $expire, $value);
+        } else {
+            return $this->connection->set($key, $value);
         }
     }
 
