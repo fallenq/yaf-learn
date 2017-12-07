@@ -19,16 +19,16 @@ class RedisTool
 
     private $connection = null;
 
-    function __construct($dbName = '', $dbId = 0, ...$options)
+    function __construct($dbName = '', $dbIndex = 0, ...$options)
     {
-        $this->init($dbName, $dbId, $options);
+        $this->init($dbName, $dbIndex, $options);
     }
 
-    public function init($dbName = '', $dbId = 0, ...$options)
+    public function init($dbName = '', $dbIndex = 0, ...$options)
     {
         $this->setConnection($dbName, $options);
-        if (!empty($dbId)) {
-            $this->execute(static::SELECT, $dbId);
+        if (!empty($dbIndex)) {
+            $this->execute(static::SELECT, $dbIndex);
         }
     }
 
@@ -79,9 +79,9 @@ class RedisTool
         return call_user_func_array([$this, $command], $options);
     }
 
-    public function select($dbId)
+    public function select($dbIndex)
     {
-        return $this->connection->select($dbId);
+        return $this->connection->select($dbIndex);
     }
 
     public function ping()
