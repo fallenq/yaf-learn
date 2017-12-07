@@ -17,10 +17,11 @@ trait BaseCacheServiceExtend
         return defined('static::REDIS_INDEX') ? static::REDIS_INDEX : '0';
     }
 
-    public static function getRedisConnection($connection = null, ...$options)
+    public static function getRedisConnection(...$options)
     {
         $dbName = ArrayHelper::getValue($options, 'db', '', 1);
         $dbIndex = ArrayHelper::getValue($options, 'index', 0);
+        $connection = ArrayHelper::getValue($options, 'connection', null);
         $dbName = !empty($dbName) ? $dbName : self::getRedisDbName();
         $dbIndex = !empty($dbIndex) ? $dbIndex : self::getRedisDbIndex();
         if (!empty($connection)) {
