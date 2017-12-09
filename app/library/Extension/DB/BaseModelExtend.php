@@ -13,10 +13,9 @@ trait BaseModelExtend
      */
     private function setModelConnection($connectionName = '')
     {
-        if (empty($connectionName)) {
-            return $this;
+        if (!empty($connectionName)) {
+            $this->setConnection($connectionName);
         }
-        return $this->setConnection($connectionName);
     }
 
     /**
@@ -26,17 +25,15 @@ trait BaseModelExtend
      */
     private function setTableName($tableName = '')
     {
-        if (empty($tableName)) {
-            return $this;
+        if (!empty($tableName)) {
+            $this->setTable($tableName);
         }
-        return $this->setTable($tableName);
     }
 
-    private function setCustomOptions($model, ...$options)
+    private function setCustomOptions(...$options)
     {
-        $model = $model->setTableName(ArrayHelper::getValue($options, 'table'));
-        $model = $model->setModelConnection(ArrayHelper::getValue($options, 'connect'));
-        return $model;
+        $this->setTableName(ArrayHelper::getValue($options, 'table'));
+        $this->setModelConnection(ArrayHelper::getValue($options, 'connect'));
     }
 
     /**
@@ -51,7 +48,7 @@ trait BaseModelExtend
             return '';
         }
         $model = new self();
-        $model = $model->setCustomOptions($model, $options);
+        $model->setCustomOptions($options);
         if ($withTrashed == 1) {
             $model = $model->withTrashed();
         } else if($withTrashed == -1) {

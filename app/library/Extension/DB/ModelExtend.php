@@ -58,7 +58,7 @@ trait ModelExtend
         $isReturnModel = ArrayHelper::getValue($options, 'return_model');
         if (empty($model)) {
             $model = new self();
-            $model = $model->setCustomOptions($model, $options);
+            $model->setCustomOptions($options);
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
             $primeValue = ArrayHelper::getValue($params, $primeName);
