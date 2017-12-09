@@ -13,7 +13,7 @@ function getConfig(...$module) {
     $configs = [];
     foreach ($module as $item) {
         $fileName = __DIR__."/../../conf/".ENV."/".$item.".php";
-        if (file_exists($fileName)) {
+        if (is_file($fileName)) {
             $configs =  array_merge($configs, include($fileName));
         }
     }
