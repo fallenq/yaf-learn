@@ -79,20 +79,22 @@ class UploadTool
 
     /**
      * Local store file
-     * @param $destinationFile
      * @param $sourceFile
+     * @param $destinationFile
      * @return string
      */
-    public function store($destinationFile, $sourceFile, ...$options)
+    public function store($sourceFile, $destinationFile = '', ...$options)
     {
-        if (empty($sourceFile) || empty($destinationFile)) {
+        if (empty($sourceFile)) {
+            return false;
+        }
+        if ($this->_custom_name == 0) {
+            $destinationFile = $this->getOutputName($sourceFile);
+        } else if(empty($destinationFile)) {
             return false;
         }
         $fileTool = $this->getFileTool();
         if ($fileTool->exist($sourceFile)) {
-            if ($this->_custom_name == 0) {
-                $destinationFile = $this->getOutputName($sourceFile);
-            }
             if ($fileTool->put($sourceFile, $destinationFile)) {
                 return $destinationFile;
             }
