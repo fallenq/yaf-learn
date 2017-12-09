@@ -95,7 +95,7 @@ class UploadTool
         }
         $fileTool = $this->getFileTool();
         if ($fileTool->exist($sourceFile)) {
-            if ($fileTool->put($sourceFile, $destinationFile)) {
+            if ($fileTool->put($destinationFile, $sourceFile)) {
                 return $destinationFile;
             }
         }

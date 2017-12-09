@@ -19,7 +19,7 @@ class FileTool
         return is_file($file);
     }
 
-    public function put($sourceFile, $destinationFile, ...$options)
+    public function put($destinationFile, $sourceFile, ...$options)
     {
         if (empty($sourceFile) || empty($destinationFile)) {
             return false;
