@@ -7,7 +7,7 @@ namespace Tool;
 class UploadTool
 {
 
-    private $_custom_name = 0;
+    private $_custom_dest = 0;
     private $_fileTool = null;
 
     function __construct(...$options)
@@ -18,8 +18,8 @@ class UploadTool
     public function init(...$options)
     {
         if (!empty($options)) {
-            if (!empty($options['custom_name'])) {
-                $this->_custom_name = $options['custom_name'];
+            if (!empty($options['custom_dest'])) {
+                $this->_custom_dest = $options['custom_dest'];
             }
         }
     }
@@ -88,7 +88,7 @@ class UploadTool
         if (empty($sourceFile)) {
             return false;
         }
-        if ($this->_custom_name == 0) {
+        if ($this->_custom_dest == 0) {
             $destinationFile = $this->getOutputName($sourceFile);
         } else if(empty($destinationFile)) {
             return false;
