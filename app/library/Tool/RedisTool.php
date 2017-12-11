@@ -104,17 +104,13 @@ class RedisTool
             return false;
         }
         if (!method_exists($this, $command)) {
-            return false;
+            // TODO: other command
+            return call_user_func_array([$this->_connection, $command], $options);
         }
         if (empty($this->validateCommand($command, $options))) {
             return false;
         }
         return call_user_func_array([$this, $command], $options);
-    }
-
-    public function select($dbIndex)
-    {
-        return $this->_connection->select($dbIndex);
     }
 
     public function ping()
@@ -163,26 +159,6 @@ class RedisTool
             return true;
         }
         return false;
-    }
-
-    public function getset($key, $value)
-    {
-        return $this->_connection->getset($key, $value);
-    }
-
-    public function move($key, $dbId)
-    {
-        return $this->_connection->move($key, $dbId);
-    }
-
-    public function get($key)
-    {
-        return $this->_connection->get($key);
-    }
-
-    public function del(...$keys)
-    {
-        return $this->_connection->del($keys);
     }
 
     public function incr($key, $disc = 0)
