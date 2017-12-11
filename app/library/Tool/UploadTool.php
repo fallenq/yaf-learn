@@ -112,12 +112,8 @@ class UploadTool
         $destinationFile = $this->parseOutputName($destinationFile);
         $fileTool = $this->getFileTool();
         if (!empty($destinationFile)) {
-            if ($fileTool->parseDir($destinationFile)) {
-                if ($fileTool->exist($sourceFile)) {
-                    if ($fileTool->put($destinationFile, $sourceFile)) {
-                        return $destinationFile;
-                    }
-                }
+            if ($fileTool->put($destinationFile, $sourceFile)) {
+                return $destinationFile;
             }
         }
         return false;

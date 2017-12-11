@@ -27,11 +27,13 @@ class FileTool
         if (!$this->exist($sourceFile)) {
             return false;
         }
-        if (is_uploaded_file($sourceFile)) {
-            return move_uploaded_file($sourceFile, $destinationFile);
-        } else if (copy($sourceFile, $destinationFile)) {
-            unlink($sourceFile);
-            return true;
+        if ($this->parseDir($destinationFile)) {
+            if (is_uploaded_file($sourceFile)) {
+                return move_uploaded_file($sourceFile, $destinationFile);
+            } else if (copy($sourceFile, $destinationFile)) {
+                unlink($sourceFile);
+                return true;
+            }
         }
         return false;
     }
