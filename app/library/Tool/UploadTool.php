@@ -110,7 +110,7 @@ class UploadTool
             return false;
         }
         $destinationFile = $this->parseOutputName($destinationFile);
-        if ($this->getFileTool()->put($destinationFile, $sourceFile)) {
+        if (!empty($destinationFile) && $this->getFileTool()->put($destinationFile, $sourceFile)) {
             return $destinationFile;
         }
         return false;
