@@ -24,41 +24,61 @@ class RedisTool
     const DECR = 'decr';
 
     private $connection = null;
+    private $config = null;
+    private $dbIndex = 0;
+    private $_reset = 0;
 
     function __construct($dbName = '', $dbIndex = 0, ...$options)
     {
-        $this->init($dbName, $dbIndex, $options);
+        $this->_initConfig($dbName, $dbIndex, $options);
     }
 
-    public function init($dbName = '', $dbIndex = 0, ...$options)
+    private function setConfig($dbName, ...$options)
+    {
+        $this->config = CommonHelper::config('redis', $dbName, []);
+    }
+
+    public function _initConfig($dbName, $dbIndex = 0, ...$options)
+    {
+        $this->setConfig($dbName, $options);
+        if (!empty($dbIndex)) {
+            $this->dbIndex = $dbIndex;
+        } else {
+            $this->dbIndex = 0;
+        }
+        $this->_reset = 1;
+    }
+
+    public function _init(...$options)
     {
         $this->close();
-        $this->setConnection($dbName, $options);
-        if (!empty($dbIndex)) {
-            $this->execute(static::SELECT, $dbIndex);
+        if ($this->setConnection($options) && !empty($this->dbIndex)) {
+            $this->select($this->dbIndex);
         }
+        $this->_reset = 0;
     }
 
-    public function setConnection($dbName, ...$options)
+    public function setConnection(...$options)
     {
-        $config = CommonHelper::config('redis', $dbName, []);
-        if (!empty($config)) {
-            $host = ArrayHelper::getValue($config, 'host', '127.0.0.1', 1);
-            $port = intval(ArrayHelper::getValue($config, 'port', '6379'));
+        if (!empty($this->config)) {
+            $host = ArrayHelper::getValue($this->config, 'host', '127.0.0.1', 1);
+            $port = intval(ArrayHelper::getValue($this->config, 'port', '6379'));
             $timeout = 0;
-            if (ArrayHelper::keyExists($config, 'timeout')) {
-                $timeout = intval(ArrayHelper::getValue($config, 'timeout', 0));
+            if (ArrayHelper::keyExists($this->config, 'timeout')) {
+                $timeout = intval(ArrayHelper::getValue($this->config, 'timeout', 0));
                 $timeout = !empty($timeout) ? $timeout : static::DEFAULT_TIMEOUT;
             }
-            $password = ArrayHelper::getValue($config, 'password', '', 1);
+            $password = ArrayHelper::getValue($this->config, 'password', '', 1);
             if (!empty($host) && !empty($port)) {
                 $this->connection = new \Redis();
                 $connected = $this->connection->connect($host, $port, $timeout);
                 if ($connected && !empty($password)) {
                     $this->connection->auth($password);
                 }
+                return $connected;
             }
         }
+        return false;
     }
 
     private function validateCommand($command, ...$options)
@@ -77,6 +97,9 @@ class RedisTool
 
     public function execute($command, ...$options)
     {
+        if (!empty($this->_reset)) {
+            $this->_init();
+        }
         if (empty($this->connection)) {
             return false;
         }
