@@ -20,10 +20,10 @@
       "doctrine/dbal": "^2.6"
 	},
 	"minimum-stability": "dev",
-  "repositories": {
-      "packagist": {
-          "type": "composer",
-          "url": "https://packagist.phpcomposer.com"
-      }
-  }
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
 }
