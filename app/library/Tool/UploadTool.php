@@ -60,14 +60,7 @@ class UploadTool
         if (empty($dirPrefix)) {
             return '';
         }
-        $file = $dirPrefix.$file;
-        $arrRealName = explode('/', $file);
-        $lastFileName = strtolower(end($arrRealName));
-        $fileDir = str_replace($lastFileName, '', $file);
-        if (!is_dir($fileDir)) {
-            mkdir($fileDir, 0777, true);
-        }
-        return $fileDir.$lastFileName;
+        return $dirPrefix.$file;
     }
 
     /**
@@ -118,9 +111,13 @@ class UploadTool
         }
         $destinationFile = $this->parseOutputName($destinationFile);
         $fileTool = $this->getFileTool();
-        if ($fileTool->exist($sourceFile)) {
-            if ($fileTool->put($destinationFile, $sourceFile)) {
-                return $destinationFile;
+        if (!empty($destinationFile)) {
+            if ($fileTool->parseDir($destinationFile)) {
+                if ($fileTool->exist($sourceFile)) {
+                    if ($fileTool->put($destinationFile, $sourceFile)) {
+                        return $destinationFile;
+                    }
+                }
             }
         }
         return false;
