@@ -4,6 +4,8 @@
  */
 namespace Tool;
 
+use Helper\CommonHelper;
+
 class UploadTool
 {
 
@@ -47,12 +49,28 @@ class UploadTool
         return $outFileName . '.' . $suffix;
     }
 
+    private function parseOutputName($file)
+    {
+        $dirPrefix = CommonHelper::config('common', 'upload.dir_prefix', '');
+        if (empty($dirPrefix)) {
+            return '';
+        }
+        $file = $dirPrefix.$file;
+        $arrRealName = explode('/', $file);
+        $lastFileName = strtolower(end($arrRealName));
+        $fileDir = str_replace($lastFileName, '', $file);
+        if (!is_dir($fileDir)) {
+            mkdir($fileDir, 0777, true);
+        }
+        return $fileDir.$lastFileName;
+    }
+
     /**
      * Process temp file info
      * @param string $files
      * @return array
      */
-    private function processTempFileInfo($files = '')
+    public function processTempFileInfo($files = '')
     {
         if (empty($files)) {
             $files = $_FILES;
@@ -83,16 +101,17 @@ class UploadTool
      * @param $destinationFile
      * @return string
      */
-    public function store($sourceFile, $destinationFile = '', ...$options)
+    public function store($sourceFile, $origin = '', $destinationFile = '', ...$options)
     {
-        if (empty($sourceFile)) {
+        if (empty($sourceFile) || empty($origin)) {
             return false;
         }
         if ($this->_custom_dest == 0) {
-            $destinationFile = $this->getOutputName($sourceFile);
+            $destinationFile = $this->getOutputName($origin);
         } else if(empty($destinationFile)) {
             return false;
         }
+        $destinationFile = $this->parseOutputName($destinationFile);
         $fileTool = $this->getFileTool();
         if ($fileTool->exist($sourceFile)) {
             if ($fileTool->put($destinationFile, $sourceFile)) {

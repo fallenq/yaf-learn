@@ -1,4 +1,6 @@
 <?php
 return [
-    'test'=>'hello'
+    'upload'=>[
+        'dir_prefix'=>__DIR__."/../../public/upload/",
+    ],
 ];
