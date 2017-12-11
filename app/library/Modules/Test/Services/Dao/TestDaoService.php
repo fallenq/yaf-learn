@@ -9,6 +9,7 @@ class TestDaoService
     use BaseDaoServiceExtend;
 
 //    const STORE_METHOD = 'restore';
+//    const PRIME_METHOD = 'primeRecord';
 
     private static $daoModelClass = SparrowTest::class;
 

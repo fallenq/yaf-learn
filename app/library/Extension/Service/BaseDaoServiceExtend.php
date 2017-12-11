@@ -24,6 +24,15 @@ trait BaseDaoServiceExtend
     }
 
     /**
+     * Get prime record method name
+     * @return string
+     */
+    public static function getPrimeMethod()
+    {
+        return defined('static::PRIME_METHOD') ? static::PRIME_METHOD : 'primeRecord';
+    }
+
+    /**
      * Get record by prime key
      * @param $primeValue
      * @param int $withTrashed
@@ -31,7 +40,7 @@ trait BaseDaoServiceExtend
      */
     public static function primeRecord($primeValue, $withTrashed = 0, ...$options)
     {
-        return call_user_func_array([self::$daoModelClass, 'primeRecord'], [$primeValue, $withTrashed, $options]);
+        return call_user_func_array([self::$daoModelClass, self::getPrimeMethod()], [$primeValue, $withTrashed, $options]);
     }
 
     /**
