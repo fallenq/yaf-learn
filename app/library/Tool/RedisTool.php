@@ -104,7 +104,6 @@ class RedisTool
             return false;
         }
         if (!method_exists($this, $command)) {
-            // TODO: other command
             return call_user_func_array([$this->_connection, $command], $options);
         }
         if (empty($this->validateCommand($command, $options))) {
