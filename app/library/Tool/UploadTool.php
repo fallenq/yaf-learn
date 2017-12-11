@@ -49,6 +49,11 @@ class UploadTool
         return $outFileName . '.' . $suffix;
     }
 
+    /**
+     * Parse output name
+     * @param $file
+     * @return string
+     */
     private function parseOutputName($file)
     {
         $dirPrefix = CommonHelper::config('common', 'upload.dir_prefix', '');
