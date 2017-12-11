@@ -23,9 +23,9 @@ class RedisTool
     const INCR = 'incr';
     const DECR = 'decr';
 
-    private $connection = null;
-    private $config = null;
-    private $dbIndex = 0;
+    private $_connection = null;
+    private $_config = null;
+    private $_db = 0;
     private $_reset = 0;
 
     function __construct($dbName = '', $dbIndex = 0, ...$options)
@@ -35,16 +35,16 @@ class RedisTool
 
     private function setConfig($dbName, ...$options)
     {
-        $this->config = CommonHelper::config('redis', $dbName, []);
+        $this->_config = CommonHelper::config('redis', $dbName, []);
     }
 
     public function _initConfig($dbName, $dbIndex = 0, ...$options)
     {
         $this->setConfig($dbName, $options);
         if (!empty($dbIndex)) {
-            $this->dbIndex = $dbIndex;
+            $this->_db = $dbIndex;
         } else {
-            $this->dbIndex = 0;
+            $this->_db = 0;
         }
         $this->_reset = 1;
     }
@@ -52,28 +52,28 @@ class RedisTool
     public function _init(...$options)
     {
         $this->close();
-        if ($this->setConnection($options) && !empty($this->dbIndex)) {
-            $this->select($this->dbIndex);
+        if ($this->setConnection($options) && !empty($this->_db)) {
+            $this->select($this->_db);
         }
         $this->_reset = 0;
     }
 
     public function setConnection(...$options)
     {
-        if (!empty($this->config)) {
-            $host = ArrayHelper::getValue($this->config, 'host', '127.0.0.1', 1);
-            $port = intval(ArrayHelper::getValue($this->config, 'port', '6379'));
+        if (!empty($this->_config)) {
+            $host = ArrayHelper::getValue($this->_config, 'host', '127.0.0.1', 1);
+            $port = intval(ArrayHelper::getValue($this->_config, 'port', '6379'));
             $timeout = 0;
-            if (ArrayHelper::keyExists($this->config, 'timeout')) {
-                $timeout = intval(ArrayHelper::getValue($this->config, 'timeout', 0));
+            if (ArrayHelper::keyExists($this->_config, 'timeout')) {
+                $timeout = intval(ArrayHelper::getValue($this->_config, 'timeout', 0));
                 $timeout = !empty($timeout) ? $timeout : static::DEFAULT_TIMEOUT;
             }
-            $password = ArrayHelper::getValue($this->config, 'password', '', 1);
+            $password = ArrayHelper::getValue($this->_config, 'password', '', 1);
             if (!empty($host) && !empty($port)) {
-                $this->connection = new \Redis();
-                $connected = $this->connection->connect($host, $port, $timeout);
+                $this->_connection = new \Redis();
+                $connected = $this->_connection->connect($host, $port, $timeout);
                 if ($connected && !empty($password)) {
-                    $this->connection->auth($password);
+                    $this->_connection->auth($password);
                 }
                 return $connected;
             }
@@ -100,7 +100,7 @@ class RedisTool
         if (!empty($this->_reset)) {
             $this->_init();
         }
-        if (empty($this->connection)) {
+        if (empty($this->_connection)) {
             return false;
         }
         if (!method_exists($this, $command)) {
@@ -114,12 +114,12 @@ class RedisTool
 
     public function select($dbIndex)
     {
-        return $this->connection->select($dbIndex);
+        return $this->_connection->select($dbIndex);
     }
 
     public function ping()
     {
-        if ($this->connection->ping() == '+PONG') {
+        if ($this->_connection->ping() == '+PONG') {
             return true;
         }
         return false;
@@ -127,11 +127,11 @@ class RedisTool
 
     public function close()
     {
-        if (empty($this->connection)) {
+        if (empty($this->_connection)) {
             return false;
         }
-        if ($this->connection->close()) {
-            $this->connection = null;
+        if ($this->_connection->close()) {
+            $this->_connection = null;
             return true;
         }
         return false;
@@ -140,23 +140,23 @@ class RedisTool
     public function expire($key, $expire = 0)
     {
         if (empty($expire)) {
-            return $this->connection->persist();
+            return $this->_connection->persist();
         }
-        return $this->connection->expire($key, $expire);
+        return $this->_connection->expire($key, $expire);
     }
 
     public function set($key, $value, $expire = 0)
     {
         if (!empty($expire)) {
-            return $this->connection->setex($key, $expire, $value);
+            return $this->_connection->setex($key, $expire, $value);
         } else {
-            return $this->connection->set($key, $value);
+            return $this->_connection->set($key, $value);
         }
     }
 
     public function setnx($key, $value, $expire = 0)
     {
-        if ($this->connection->setnx($key, $value)) {
+        if ($this->_connection->setnx($key, $value)) {
             if (!empty($expire)) {
                 $this->expire($key, $expire);
             }
@@ -167,34 +167,34 @@ class RedisTool
 
     public function getset($key, $value)
     {
-        return $this->connection->getset($key, $value);
+        return $this->_connection->getset($key, $value);
     }
 
     public function move($key, $dbId)
     {
-        return $this->connection->move($key, $dbId);
+        return $this->_connection->move($key, $dbId);
     }
 
     public function get($key)
     {
-        return $this->connection->get($key);
+        return $this->_connection->get($key);
     }
 
     public function del(...$keys)
     {
-        return $this->connection->del($keys);
+        return $this->_connection->del($keys);
     }
 
     public function incr($key, $disc = 0)
     {
         $disc = $disc <= 1 ? 1 : $disc;
-        return $this->connection->incrby($key, $disc);
+        return $this->_connection->incrby($key, $disc);
     }
 
     public function decr($key, $disc = 0)
     {
         $disc = $disc <= 1 ? 1 : $disc;
-        return $this->connection->decrby($key, $disc);
+        return $this->_connection->decrby($key, $disc);
     }
 
 }
