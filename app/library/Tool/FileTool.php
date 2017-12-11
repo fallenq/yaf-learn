@@ -19,6 +19,19 @@ class FileTool
         return is_file($file);
     }
 
+    public function parseDir($path)
+    {
+        $arrRealName = explode('/', $path);
+        $lastFileName = strtolower(end($arrRealName));
+        $pathDir = str_replace($lastFileName, '', $path);
+        if (!is_dir($pathDir)) {
+            if (!mkdir($pathDir, 0777, true)) {
+                return false;
+            }
+        }
+        return $pathDir.$lastFileName;
+    }
+
     public function put($destinationFile, $sourceFile, ...$options)
     {
         if (empty($sourceFile) || empty($destinationFile)) {
@@ -36,20 +49,6 @@ class FileTool
             }
         }
         return false;
-    }
-
-
-    public function parseDir($file)
-    {
-        $arrRealName = explode('/', $file);
-        $lastFileName = strtolower(end($arrRealName));
-        $fileDir = str_replace($lastFileName, '', $file);
-        if (!is_dir($fileDir)) {
-            if (!mkdir($fileDir, 0777, true)) {
-                return false;
-            }
-        }
-        return $fileDir.$lastFileName;
     }
 
 }
