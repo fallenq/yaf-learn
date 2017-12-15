@@ -53,7 +53,7 @@ class ResponseTool
                 $code = ResponseConfig::SUCCESS;
             } else if($method == static::ERROR_METHOD) {
                 $code = ResponseConfig::ERROR;
-            } else if($method == static::VALIDATE_METHOD) {
+            } else {
                 return false;
             }
         }
@@ -72,6 +72,36 @@ class ResponseTool
 
     public function isCode($code) {
         return $this->validateCode(static::VALIDATE_METHOD, $code);
+    }
+
+    public function setCode($code)
+    {
+        $this->getModel()->setCode($code);
+    }
+
+    public function setMsg($msg)
+    {
+        $this->getModel()->setMsg($msg);
+    }
+
+    public function setData(array $data)
+    {
+        $this->getModel()->setData($data);
+    }
+
+    public function setUrl($url)
+    {
+        $this->getModel()->setUrl($url);
+    }
+
+    public function success($msg = '', $clear = 0)
+    {
+        $this->getModel()->_success($msg, $clear);
+    }
+
+    public function error($msg = '', $clear = 0)
+    {
+        $this->getModel()->_error($msg, $clear);
     }
 
     public function output($jsonp = 0, $callback = '')

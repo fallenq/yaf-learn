@@ -22,7 +22,9 @@ class ResponseModel {
     }
 
     public function setCode($code) {
-        $this->code = $code;
+        if (!is_null($code) && is_float($code)) {
+            $this->code = $code;
+        }
     }
 
     public function getMsg() {
@@ -30,7 +32,9 @@ class ResponseModel {
     }
 
     public function setMsg($msg) {
-        $this->msg = $msg;
+        if (!is_null($msg) && is_string($msg)) {
+            $this->msg = $msg;
+        }
     }
 
     public function getUrl() {
@@ -38,7 +42,9 @@ class ResponseModel {
     }
 
     public function setUrl($url) {
-        $this->url = $url;
+        if (!is_null($url) && is_string($url)) {
+            $this->url = $url;
+        }
     }
 
     public function getData() {
@@ -46,7 +52,9 @@ class ResponseModel {
     }
 
     public function setData($data = []) {
-        $this->data = $data;
+        if (!is_null($data) && is_array($data)) {
+            $this->data = $data;
+        }
     }
 
     public function getDataValue($column, $defaultValue = '') {
