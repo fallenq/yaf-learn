@@ -79,7 +79,7 @@ class ResponseModel {
             $this->_init();
         }
         $this->setCode(ResponseConfig::ERROR);
-        $this->setMsg(!empty($msg)? $msg: ResponseConfig::COMMON_ERROR_MSG);
+        $this->setMsg(!empty($msg)? $msg: ResponseConfig::DEFAULT_ERROR_MSG);
     }
 
     public function _success($msg = '', $clear = 0)

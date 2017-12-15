@@ -8,5 +8,5 @@ class ResponseConfig
 {
     const ERROR             = 500;
     const SUCCESS           = 200;
-    const COMMON_ERROR_MSG  = 'Submit error!';
+    const DEFAULT_ERROR_MSG  = 'Submit error!';
 }
