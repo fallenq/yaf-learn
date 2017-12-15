@@ -41,6 +41,44 @@ class ArrayHelper
     }
 
     /**
+     * Set the value of params
+     * @param $params
+     * @param $columnName
+     * @param $value
+     * @param $isStrict
+     */
+    public static function setValue($params, $columnName, $value, $isStrict = 0)
+    {
+        if (StringHelper::countSub($columnName, '.')) {
+            $columns = explode('.', $columnName);
+            $keyName = array_shift($columns);
+            $afterColumns = implode('.', $columns);
+            if ($isStrict) {
+                if (!self::keyExists($params, $keyName)) {
+                    $params[$keyName] = [];
+                    return self::setValue($params[$keyName], $afterColumns, $value, $isStrict);
+                } else if(is_array($params[$keyName])) {
+                    return self::setValue($params[$keyName], $afterColumns, $value, $isStrict);
+                } else {
+                    return false;
+                }
+            } else {
+                if (!self::keyExists($params, $keyName)) {
+                    $params[$keyName] = [];
+                } else if(!is_array($params[$keyName])) {
+                    // not array convert into array
+//                    $partValue = $params[$keyName];
+//                    $params[$keyName] = [$partValue];
+                    $params[$keyName] = [];
+                }
+                return self::setValue($params[$keyName], $afterColumns, $value, $isStrict);
+            }
+        }
+        $params[$columnName] = $value;
+        return $params;
+    }
+
+    /**
      * Validate whether the column is in params
      * @param $params
      * @param $columnName
