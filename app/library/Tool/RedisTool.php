@@ -22,6 +22,7 @@ class RedisTool
     const DEL = 'del';
     const INCR = 'incr';
     const DECR = 'decr';
+    const FLUSHALL = 'flushall';
 
     private $_connection = null;
     private $_config = null;
@@ -86,7 +87,7 @@ class RedisTool
         if (empty($command)) {
             return false;
         }
-        if (in_array($command, [static::PING])) {
+        if (in_array($command, [static::PING, static::FLUSHALL])) {
             return true;
         }
         if ($options[0] !== '') {
