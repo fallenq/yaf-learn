@@ -70,10 +70,13 @@ class UploadTool
      */
     public function processTempFileInfo($files = '')
     {
+        $outFiles = [];
         if (empty($files)) {
+            if (empty($_FILES)) {
+                return $outFiles;
+            }
             $files = $_FILES;
         }
-        $outFiles = array();
         $n = 0;
         foreach ($files as $key => $file) {
             if (is_array($file['name'])) {
@@ -109,8 +112,8 @@ class UploadTool
         } else if(empty($destinationFile)) {
             return false;
         }
-        $destinationFile = $this->parseOutputName($destinationFile);
-        if (!empty($destinationFile) && $this->getFileTool()->put($destinationFile, $sourceFile)) {
+        $destinationFileUri = $this->parseOutputName($destinationFile);
+        if (!empty($destinationFileUri) && $this->getFileTool()->put($destinationFileUri, $sourceFile)) {
             return $destinationFile;
         }
         return false;
