@@ -11,6 +11,6 @@ class TestDaoService
 //    const STORE_METHOD = 'restore';
 //    const PRIME_METHOD = 'primeRecord';
 
-    private static $daoModelClass = SparrowTest::class;
+//    const DEFAULT_DAO_CLASS = SparrowTest::class;
 
 }
