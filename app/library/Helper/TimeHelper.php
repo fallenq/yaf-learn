@@ -13,7 +13,7 @@ class TimeHelper
      */
     public static function formatTimestamp($timestamp = null, ...$options)
     {
-        $timestamp = !empty($timestamp)? $timestamp: time();
+        $timestamp = !empty($timestamp) ? $timestamp : time();
         $method = ArrayHelper::getValue($options, 0);
         switch ($method) {
             case 1:
@@ -32,11 +32,11 @@ class TimeHelper
      */
     public static function getMonthLast($year, $month)
     {
-        if (in_array($month, [1,3,5,7,8,10,12])) {
+        if (in_array($month, [1, 3, 5, 7, 8, 10, 12])) {
             return 31;
-        } else if(in_array($month, [4,6,9,11])) {
+        } else if (in_array($month, [4, 6, 9, 11])) {
             return 30;
-        } else if($month == 2) {
+        } else if ($month == 2) {
             if ($year % 400 == 0 || ($year % 4 == 0 && $year % 100 > 0)) {
                 return 29;
             } else {
