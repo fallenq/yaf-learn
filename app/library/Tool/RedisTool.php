@@ -75,6 +75,7 @@ class RedisTool
         if (empty($command)) {
             return false;
         }
+        $command = strtolower($command);
         if (in_array($command, ['ping', 'flushall'])) {
             return true;
         }
@@ -89,7 +90,7 @@ class RedisTool
         if (!$this->internalValidate($command, $options)) {
             return false;
         }
-        return call_user_func_array([$this->_connection, $command], $options);
+        return call_user_func_array([$this->_connection, strtolower($command)], $options);
     }
 
     public function internalValidate($command, ...$options)
@@ -108,13 +109,21 @@ class RedisTool
 
     public function ping()
     {
-        if (!$this->internalValidate(__METHOD__)) {
+        if (!$this->internalValidate('ping')) {
             return false;
         }
         if ($this->_connection->ping() == '+PONG') {
             return true;
         }
         return false;
+    }
+
+    public function select($dbIndex = 0)
+    {
+        if (!$this->internalValidate(__METHOD__)) {
+            return false;
+        }
+        return $this->_connection->select($dbIndex);
     }
 
     public function close()
