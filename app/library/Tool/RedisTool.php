@@ -96,6 +96,23 @@ class RedisTool
         return false;
     }
 
+    public function __call($command, $options)
+    {
+        if (!empty($this->_reset)) {
+            $this->_init();
+        }
+        if (empty($this->_connection)) {
+            return false;
+        }
+        if (!method_exists($this, $command)) {
+            return call_user_func_array([$this->_connection, $command], $options);
+        }
+        if (empty($this->validateCommand($command, $options))) {
+            return false;
+        }
+        return call_user_func_array([$this, $command], $options);
+    }
+
     public function execute($command, ...$options)
     {
         if (!empty($this->_reset)) {
