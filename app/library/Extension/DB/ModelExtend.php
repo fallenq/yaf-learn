@@ -91,9 +91,11 @@ trait ModelExtend
                 $primeKeyId = '';
                 if (!$isAutoInc) {
                     $model->$primeName = $primeValue;
+                } else if(!empty($primeValue)) {
+                    $model->$primeName = $primeValue;
                 }
                 if ($model->save()) {
-                    $primeKeyId = $model->$primeName;
+                    $primeKeyId = $model->getAttribute($primeName);
                 }
                 if (!empty($primeKeyId)) {
                     return ['code' => 200, 'is_new'=>1, 'primeKeyId'=>$primeKeyId, 'message' => '', 'model' => !empty($isReturnModel)? $model: ''];

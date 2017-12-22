@@ -1,4 +1,5 @@
 <?php
+use Yaf\Dispatcher;
 use Yaf\Action_Abstract;
 use Helper\CommonHelper;
 use Helper\TimeHelper;
@@ -11,8 +12,9 @@ use Tool\RedisTool;
 class IndexAction extends Action_Abstract
 {
     public function execute () {
+//        Dispatcher::getInstance()->disableView();
 //        dd(User::where([])->get());
-        $stime = date('Y-m-d H:i:s');
+//        $stime = date('Y-m-d H:i:s');
 
 //        $redis = new RedisTool('test', 1);
 //        dd($redis->execute(\Tool\RedisTool::SET, 'hello', 'world', 20));
@@ -33,5 +35,6 @@ class IndexAction extends Action_Abstract
 //        assert($name == $this->getRequest()->getParam("name"));
 //        assert($id   == $this->getRequest()->getParam("id"));
         $this->getView();
+//        var_dump(SparrowTest::store(['name'=>'test1']));
     }
 }
