@@ -6,7 +6,7 @@ namespace Helper;
 
 class TimeHelper
 {
-    
+
     /**
      * 格式化时间戳
      * @param null $timestamp
