@@ -11,18 +11,6 @@ class RedisTool
 {
 
     const DEFAULT_TIMEOUT = 3;
-    const SELECT = 'select';
-    const PING = 'ping';
-    const EXPIRE = 'expire';
-    const SET = 'set';
-    const SETNX = 'setnx';
-    const GETSET = 'getset';
-    const MOVE = 'move';
-    const GET = 'get';
-    const DEL = 'del';
-    const INCR = 'incr';
-    const DECR = 'decr';
-    const FLUSHALL = 'flushall';
 
     private $_connection = null;
     private $_config = null;
@@ -87,7 +75,7 @@ class RedisTool
         if (empty($command)) {
             return false;
         }
-        if (in_array($command, [static::PING, static::FLUSHALL])) {
+        if (in_array($command, ['ping', 'flushall'])) {
             return true;
         }
         if ($options[0] !== '') {
@@ -96,24 +84,15 @@ class RedisTool
         return false;
     }
 
-    public function __call($command, $options)
+    public function __call($command, ...$options)
     {
-        if (!empty($this->_reset)) {
-            $this->_init();
-        }
-        if (empty($this->_connection)) {
+        if (!$this->internalValidate($command, $options)) {
             return false;
         }
-        if (!method_exists($this, $command)) {
-            return call_user_func_array([$this->_connection, $command], $options);
-        }
-        if (empty($this->validateCommand($command, $options))) {
-            return false;
-        }
-        return call_user_func_array([$this, $command], $options);
+        return call_user_func_array([$this->_connection, $command], $options);
     }
 
-    public function execute($command, ...$options)
+    public function internalValidate($command, ...$options)
     {
         if (!empty($this->_reset)) {
             $this->_init();
@@ -121,17 +100,17 @@ class RedisTool
         if (empty($this->_connection)) {
             return false;
         }
-        if (!method_exists($this, $command)) {
-            return call_user_func_array([$this->_connection, $command], $options);
-        }
         if (empty($this->validateCommand($command, $options))) {
             return false;
         }
-        return call_user_func_array([$this, $command], $options);
+        return true;
     }
 
     public function ping()
     {
+        if (!$this->internalValidate(__METHOD__)) {
+            return false;
+        }
         if ($this->_connection->ping() == '+PONG') {
             return true;
         }
@@ -152,6 +131,9 @@ class RedisTool
 
     public function expire($key, $expire = 0)
     {
+        if (!$this->internalValidate(__METHOD__, $key, $expire)) {
+            return false;
+        }
         if (empty($expire)) {
             return $this->_connection->persist();
         }
@@ -160,6 +142,9 @@ class RedisTool
 
     public function set($key, $value, $expire = 0)
     {
+        if (!$this->internalValidate(__METHOD__, $key, $value, $expire)) {
+            return false;
+        }
         if (!empty($expire)) {
             return $this->_connection->setex($key, $expire, $value);
         } else {
@@ -169,6 +154,9 @@ class RedisTool
 
     public function setnx($key, $value, $expire = 0)
     {
+        if (!$this->internalValidate(__METHOD__, $key, $value, $expire)) {
+            return false;
+        }
         if ($this->_connection->setnx($key, $value)) {
             if (!empty($expire)) {
                 $this->expire($key, $expire);
@@ -180,12 +168,18 @@ class RedisTool
 
     public function incr($key, $disc = 0)
     {
+        if (!$this->internalValidate(__METHOD__, $key, $disc)) {
+            return false;
+        }
         $disc = $disc <= 1 ? 1 : $disc;
         return $this->_connection->incrby($key, $disc);
     }
 
     public function decr($key, $disc = 0)
     {
+        if (!$this->internalValidate(__METHOD__, $key, $disc)) {
+            return false;
+        }
         $disc = $disc <= 1 ? 1 : $disc;
         return $this->_connection->decrby($key, $disc);
     }
