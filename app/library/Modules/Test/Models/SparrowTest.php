@@ -18,15 +18,6 @@ class SparrowTest extends \EloquentModel
     const UPDATED_AT = 'update_at';
     const DELETED_AT = 'delete_at';
 
-    /**
-     * 获取字段名数组
-     * @return array
-     */
-    private static function getTableColumns()
-    {
-        return [
-            'name', 'type'
-        ];
-    }
+    const COLUMN_FIELDS = ['name', 'type'];
 
 }

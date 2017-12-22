@@ -3,6 +3,7 @@ namespace Extension\DB;
 
 use Helper\ArrayHelper;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 
 trait ModelExtend
 {
@@ -13,7 +14,7 @@ trait ModelExtend
      */
     private static function getTableColumns()
     {
-        return [];
+        return defined('static::COLUMN_FIELDS')? static::COLUMN_FIELDS: [];
     }
 
     /**
@@ -57,7 +58,7 @@ trait ModelExtend
         $isUpdate = 0;
         $isReturnModel = ArrayHelper::getValue($options, 'return_model');
         if (empty($model)) {
-            $model = new self();
+            $model = new static();
             $model->setCustomOptions($options);
             $isAutoInc = $model->getIncrementing();
             $primeName = $model->getKeyName();
@@ -81,7 +82,7 @@ trait ModelExtend
             return ['code' => 500, 'message' => '对象类型不符'];
         }
         if (!empty($model)) {
-            $params = self::column_filter($model, $params, self::getTableColumns());
+            $params = static::column_filter($model, $params, static::getTableColumns());
             if (!empty($isUpdate)) {
                 if ($model->save()) {
                     return ['code' => 200, 'is_new'=>0, 'primeKeyId'=>$primeValue, 'message' => '', 'model' => !empty($isReturnModel)? $model: ''];
