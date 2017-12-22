@@ -78,7 +78,7 @@ class RedisTool
         if (in_array($command, ['ping', 'flushall'])) {
             return true;
         }
-        if (!is_null($options[0])) {
+        if (!empty($options) && !is_null($options[0])) {
             return true;
         }
         return false;
