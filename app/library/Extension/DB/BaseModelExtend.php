@@ -11,7 +11,7 @@ trait BaseModelExtend
      * @param $model
      * @param string $connectionName
      */
-    private function setModelConnection($connectionName = '')
+    public function setModelConnection($connectionName = '')
     {
         if (!empty($connectionName)) {
             $this->setConnection($connectionName);
@@ -23,7 +23,7 @@ trait BaseModelExtend
      * @param $model
      * @param string $tableName
      */
-    private function setTableName($tableName = '')
+    public function setTableName($tableName = '')
     {
         if (!empty($tableName)) {
             $this->setTable($tableName);
