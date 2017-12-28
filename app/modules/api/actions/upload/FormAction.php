@@ -7,10 +7,10 @@ use Helper\ArrayHelper;
 class FormAction extends Action_Abstract
 {
     public function execute () {
-        Dispatcher::getInstance()->disableView();
         $upload = new UploadTool();
         $fileInfo = $upload->processTempFileInfo();
         dd($fileInfo);
         $upload->store(ArrayHelper::getValue($fileInfo, 'file.tmp_name'), ArrayHelper::getValue($fileInfo, 'file.name'));
+        return false;
     }
 }
