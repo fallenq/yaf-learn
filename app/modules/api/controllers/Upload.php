@@ -6,6 +6,6 @@ use Yaf\Controller_Abstract;
 class UploadController extends Controller_Abstract
 {
     public $actions = array(
-        "form" => "modules/api/actions/upload/FormAction.php",
+        "single-form" => "modules/api/actions/upload/SingleFormAction.php",
     );
 }

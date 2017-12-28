@@ -4,7 +4,7 @@ use Yaf\Action_Abstract;
 use Tool\UploadTool;
 use Helper\ArrayHelper;
 
-class FormAction extends Action_Abstract
+class SingleFormAction extends Action_Abstract
 {
     public function execute () {
         $upload = new UploadTool();
