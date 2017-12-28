@@ -53,7 +53,7 @@ class ResponseTool
                 $code = ResponseConfig::SUCCESS;
             } else if($method == static::ERROR_METHOD) {
                 $code = ResponseConfig::ERROR;
-            } else {
+            } else if($method != static::VALIDATE_METHOD) {
                 return false;
             }
         }
