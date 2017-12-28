@@ -1,15 +1,6 @@
 <?php
 
 function getConfig(...$module) {
-//    $suffix = "";
-//    switch (ENV) {
-//        case 'DEV':
-//            $suffix .= '_dev';
-//            break;
-//    }
-//    if (empty($suffix)) {
-//        return [];
-//    }
     $configs = [];
     foreach ($module as $item) {
         $fileName = __DIR__."/../../conf/".ENV."/".$item.".php";
