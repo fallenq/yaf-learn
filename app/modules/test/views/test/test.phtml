@@ -1,9 +1,9 @@
 <html>
 <body>
 
-<form action="/api/upload/form" method="post"
+<form action="<?= $actionUrl ?>" method="post"
       enctype="multipart/form-data">
-    <label for="file">Filename:</label>
+    <label for="file"><?= $fileName ?>:</label>
     <input type="file" name="file" id="file" />
     <br />
     <input type="submit" name="submit" value="Submit" />

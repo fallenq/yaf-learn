@@ -12,7 +12,7 @@ use Tool\RedisTool;
 class IndexAction extends Action_Abstract
 {
     public function execute () {
-        Dispatcher::getInstance()->disableView();
+//        Dispatcher::getInstance()->disableView();
 //        dd(User::where([])->get());
 //        $stime = date('Y-m-d H:i:s');
 
@@ -25,6 +25,7 @@ class IndexAction extends Action_Abstract
 //        dd(TestDaoService::store([]));
 //        dd(TestDaoService::store(['name'=>"dd"]));
 //        echo TimeHelper::formatTimestamp(null, 1, "-10 days");
+//        return false;
 
 //        var_dump(ArrayHelper::getValue(['t1'=>['v1'=>['c1']]], 't1.v1', 0));
 
@@ -34,7 +35,13 @@ class IndexAction extends Action_Abstract
 
 //        assert($name == $this->getRequest()->getParam("name"));
 //        assert($id   == $this->getRequest()->getParam("id"));
-//        $this->getView();
+        $viewParams = [
+            'actionUrl' =>  '/api/upload/form',
+            'fileName'  =>  'test'
+        ];
+        $this->getView()->assign($viewParams);
+        $this->getView()->display('test/test.phtml');
+        return false;
 //        var_dump(SparrowTest::store(['name'=>'test1']));
     }
 }
