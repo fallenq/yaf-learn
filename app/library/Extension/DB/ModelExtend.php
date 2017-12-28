@@ -67,7 +67,7 @@ trait ModelExtend
                 return ['code' => 500, 'message' => '缺少主键'];
             }
             if (!empty($primeValue)) {
-                if (method_exists($model,'getDeletedAtColumn')) {
+                if ($model->isSoftDelete()) {
                     // 软删除的model取全部状态
                     $record = $model->withTrashed()->where($primeName, $primeValue)->first();
                 } else {

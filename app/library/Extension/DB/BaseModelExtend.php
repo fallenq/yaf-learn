@@ -36,6 +36,11 @@ trait BaseModelExtend
         $this->setModelConnection(ArrayHelper::getValue($options, 'connect'));
     }
 
+    public function isSoftDelete()
+    {
+        return method_exists($this,'getDeletedAtColumn');
+    }
+
     /**
      * Get record by prime key
      * @param $primeValue
@@ -49,10 +54,12 @@ trait BaseModelExtend
         }
         $model = new self();
         $model->setCustomOptions($options);
-        if ($withTrashed == 1) {
-            $model = $model->withTrashed();
-        } else if($withTrashed == -1) {
-            $model = $model->onlyTrashed();
+        if ($model->isSoftDelete()) {
+            if ($withTrashed == 1) {
+                $model = $model->withTrashed();
+            } else if($withTrashed == -1) {
+                $model = $model->onlyTrashed();
+            }
         }
         return $model->where($model->getKeyName(), $primeValue)->first();
     }
