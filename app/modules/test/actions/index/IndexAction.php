@@ -36,7 +36,7 @@ class IndexAction extends Action_Abstract
 //        assert($name == $this->getRequest()->getParam("name"));
 //        assert($id   == $this->getRequest()->getParam("id"));
         $viewParams = [
-            'actionUrl' =>  '/api/upload/single-form',
+            'actionUrl' =>  '/api/upload/form',
             'fileName'  =>  'test'
         ];
         $this->getView()->assign($viewParams);
