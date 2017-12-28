@@ -13,8 +13,6 @@ class IndexAction extends Action_Abstract
 {
     public function execute () {
         Dispatcher::getInstance()->disableView();
-        CommonHelper::test(1,2,3);
-        CommonHelper::test(['1'=>'test', 2=>'test2']);
 //        dd(User::where([])->get());
 //        $stime = date('Y-m-d H:i:s');
 

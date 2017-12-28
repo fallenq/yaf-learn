@@ -24,9 +24,5 @@ class CommonHelper
         }
         return $configs;
     }
-
-    public static function test(...$params)
-    {
-        var_dump($params);
-    }
+    
 }
