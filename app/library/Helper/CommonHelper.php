@@ -24,5 +24,5 @@ class CommonHelper
         }
         return $configs;
     }
-    
+
 }
