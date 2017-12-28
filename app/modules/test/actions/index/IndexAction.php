@@ -12,7 +12,9 @@ use Tool\RedisTool;
 class IndexAction extends Action_Abstract
 {
     public function execute () {
-//        Dispatcher::getInstance()->disableView();
+        Dispatcher::getInstance()->disableView();
+        CommonHelper::test(1,2,3);
+        CommonHelper::test(['1'=>'test', 2=>'test2']);
 //        dd(User::where([])->get());
 //        $stime = date('Y-m-d H:i:s');
 
@@ -34,7 +36,7 @@ class IndexAction extends Action_Abstract
 
 //        assert($name == $this->getRequest()->getParam("name"));
 //        assert($id   == $this->getRequest()->getParam("id"));
-        $this->getView();
+//        $this->getView();
 //        var_dump(SparrowTest::store(['name'=>'test1']));
     }
 }
