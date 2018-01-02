@@ -8,7 +8,7 @@ class TestController extends Controller_Abstract
 
     public $actions = array(
         "index" => "modules/test/actions/index/IndexAction.php",
-        "testOrder" => "modules/test/actions/test/TestOrder.php",
+        "order" => "modules/test/actions/test/Order.php",
     );
 	
 //	public function testHelloAction()
