@@ -85,7 +85,7 @@ class RedisTool
         return false;
     }
 
-    public function __call($command, ...$options)
+    public function __call($command, $options)
     {
         if (!$this->internalValidate($command, $options)) {
             return false;
