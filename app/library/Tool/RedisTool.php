@@ -11,6 +11,8 @@ class RedisTool
 {
 
     const DEFAULT_TIMEOUT = 3;
+    const EXPIRE_METHOD = 0;
+    const EXPIREAT_METHOD = 1;
 
     private $_connection = null;
     private $_config = null;
@@ -149,26 +151,47 @@ class RedisTool
         return $this->_connection->expire($key, $expire);
     }
 
-    public function set($key, $value, $expire = 0)
+    public function expireat($key, $timestamp = 0)
+    {
+        if (!$this->internalValidate(__METHOD__, $key, $timestamp)) {
+            return false;
+        }
+        if (empty($expire)) {
+            return $this->_connection->persist();
+        }
+        return $this->_connection->expireat($key, $timestamp);
+    }
+
+    public function set($key, $value, $expire = 0, $method = 0)
     {
         if (!$this->internalValidate(__METHOD__, $key, $value, $expire)) {
             return false;
         }
         if (!empty($expire)) {
-            return $this->_connection->setex($key, $expire, $value);
+            if (empty($method)) {
+                return $this->_connection->setex($key, $expire, $value);
+            } else {
+                $res = $this->_connection->set($key, $value);
+                $this->expireat($key, $expire);
+                return $res;
+            }
         } else {
             return $this->_connection->set($key, $value);
         }
     }
 
-    public function setnx($key, $value, $expire = 0)
+    public function setnx($key, $value, $expire = 0, $method = 0)
     {
         if (!$this->internalValidate(__METHOD__, $key, $value, $expire)) {
             return false;
         }
         if ($this->_connection->setnx($key, $value)) {
             if (!empty($expire)) {
-                $this->expire($key, $expire);
+                if (empty($method)) {
+                    $this->expire($key, $expire);
+                } else {
+                    $this->expireat($key, $expire);
+                }
             }
             return true;
         }
