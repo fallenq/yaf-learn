@@ -22,7 +22,7 @@ class ResponseTool
     public function getModel()
     {
         if (is_null($this->model)) {
-            $this->model = ResponseModel::getInstance();
+            $this->model = ResponseWorker::getInstance();
             $this->model->_error();
         }
         return $this->model;
@@ -30,7 +30,7 @@ class ResponseTool
 
     public function setModel($model)
     {
-        if ($model instanceof ResponseModel) {
+        if ($model instanceof ResponseWorker) {
             $this->model = $model;
         }
     }

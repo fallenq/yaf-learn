@@ -1,12 +1,10 @@
 <?php
-/**
- * ResponseModel
- */
 namespace Tool\Response;
 
 use Helper\ArrayHelper;
 
-class ResponseModel {
+class ResponseWorker
+{
 
     private $code   = 0;
     private $msg    = '';
